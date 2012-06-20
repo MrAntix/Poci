@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Security;
 using Moq;
+using Poci.Common.Security;
 using Poci.Security.Data;
 using Poci.Security.Data.Services;
 
-namespace Poci.Security.Tests
+namespace Poci.Security.Tests.Builders
 {
     internal class UserDataServiceBuilder
     {

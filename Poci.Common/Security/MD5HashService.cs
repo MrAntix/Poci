@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Poci.Common.Properties;
 
-namespace Common.Security
+namespace Poci.Common.Security
 {
     public class MD5HashService : IHashService
     {

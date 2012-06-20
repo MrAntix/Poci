@@ -1,8 +1,7 @@
-using Common.Security;
 using Moq;
 using Poci.Security.Data;
 
-namespace Poci.Security.Tests
+namespace Poci.Security.Tests.Builders
 {
     internal class UserBuilder
     {

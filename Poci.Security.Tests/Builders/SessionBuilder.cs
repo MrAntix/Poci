@@ -2,7 +2,7 @@ using System;
 using Moq;
 using Poci.Security.Data;
 
-namespace Poci.Security.Tests
+namespace Poci.Security.Tests.Builders
 {
     class SessionBuilder
     {

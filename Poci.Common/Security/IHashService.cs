@@ -1,4 +1,4 @@
-﻿namespace Common.Security
+﻿namespace Poci.Common.Security
 {
     public interface IHashService
     {

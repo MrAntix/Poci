@@ -1,5 +1,6 @@
-﻿using Common.Security;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Poci.Common.Security;
+using Poci.Security.Tests.Builders;
 using Poci.Security.Validation;
 
 namespace Poci.Security.Tests
