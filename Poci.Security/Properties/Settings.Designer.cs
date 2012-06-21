@@ -85,5 +85,14 @@ namespace Poci.Security.Properties {
                 return ((string)(this["UserPasswordRequireNumbersCountValidationMessage"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int SessionExpiryMinutes {
+            get {
+                return ((int)(this["SessionExpiryMinutes"]));
+            }
+        }
     }
 }

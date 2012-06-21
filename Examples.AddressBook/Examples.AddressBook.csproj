@@ -40,13 +40,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressBookContactsService.cs" />
+    <Compile Include="AddressBookDuplicateContactException.cs" />
+    <Compile Include="Data\IAddressBookContact.cs" />
+    <Compile Include="DataServices\IAddressBookContactsDataService.cs" />
     <Compile Include="IAddressBookContactsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Poci.Contacts\Poci.Contacts.csproj">
+    <ProjectReference Include="..\Poci.Contacts.Data\Poci.Contacts.Data.csproj">
       <Project>{84F56F83-A2BC-4206-A08E-9CE33AAA2BA0}</Project>
-      <Name>Poci.Contacts</Name>
+      <Name>Poci.Contacts.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Poci.Security\Poci.Security.csproj">
       <Project>{DA5876BB-41E0-4532-AD2A-EA508611B585}</Project>

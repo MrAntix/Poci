@@ -1,28 +1,19 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
-using Poci.Common.Security;
 using Poci.Security.Data;
-using Poci.Security.Data.Services;
+using Poci.Security.DataServices;
 
 namespace Poci.Security.Tests.Builders
 {
     public class UserDataServiceBuilder
     {
-        readonly IHashService _hashService;
-        readonly IList<IUser> _users = new List<IUser>();
-
-        public UserDataServiceBuilder(
-            IHashService hashService)
-        {
-            _hashService = hashService;
-        }
+        public readonly IList<IUser> Users = new List<IUser>();
 
         public UserDataServiceBuilder WithUser(
             IUser user)
         {
-            _users.Add(user);
+            Users.Add(user);
 
             return this;
         }
@@ -30,19 +21,16 @@ namespace Poci.Security.Tests.Builders
         public IUserDataService Build()
         {
             var mock = new Mock<IUserDataService>();
-            // mock.SetupAllProperties();
+            mock.SetupAllProperties();
 
-            mock.Setup(s => s.GetUserByEmail(It.IsAny<string>()))
-                .Returns((string email) => _users.Single(u => u.Email == email));
+            mock.Setup(s => s.GetUser(It.IsAny<string>()))
+                .Returns((string email) => Users.Single(u => u.Email == email));
 
-            mock.Setup(s => s.UserExistsByEmail(It.IsAny<string>()))
-                .Returns((string email) => _users.Any(u => u.Email == email));
+            mock.Setup(s => s.UserExists(It.IsAny<string>()))
+                .Returns((string email) => Users.Any(u => u.Email == email));
 
-            mock.Setup(s => s.CreateSession(It.IsAny<IUser>()))
-                .Returns((IUser user) => new SessionBuilder()
-                                             .WithUser(user)
-                                             .WithCreatedOn(DateTime.UtcNow)
-                                             .Build());
+            mock.Setup(s => s.InsertUser(It.IsAny<IUser>()))
+                .Callback((IUser user) => Users.Add(user));
 
             mock.Setup(s => s.CreateUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns((
@@ -50,7 +38,7 @@ namespace Poci.Security.Tests.Builders
                     string email,
                     string passwordHash)
                          => new UserBuilder()
-                                .BuildUser(email, passwordHash, name));
+                                .Build(email, passwordHash, name));
 
             return mock.Object;
         }

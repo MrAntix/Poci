@@ -1,31 +1,50 @@
-using Poci.Contacts.Data;
-using Poci.Contacts.Data.Services;
+using Examples.AddressBook.Data;
+using Examples.AddressBook.DataServices;
+using Poci.Security;
 using Poci.Security.Data;
 
 namespace Examples.AddressBook
 {
     public class AddressBookContactsService : IAddressBookContactsService
     {
-        IContactDataService _dataService;
+        readonly IAddressBookContactsDataService _contactDataService;
+        readonly ISecurityService _securityService;
 
-        public AddressBookContactsService(IContactDataService dataService)
+        public AddressBookContactsService(
+            IAddressBookContactsDataService contactDataService,
+            ISecurityService securityService)
         {
-            _dataService = dataService;
+            _contactDataService = contactDataService;
+            _securityService = securityService;
         }
+
+        #region IAddressBookContactsService Members
 
         public void Dispose()
         {
-            
         }
 
-        public IContact CreateContact()
+        public IAddressBookContact AddContact(
+            ISession session, string emailAddress, bool allowDuplicate)
         {
-            throw new System.NotImplementedException();
+            _securityService.AssertSessionIsValid(session);
+
+            if (!allowDuplicate
+                && _contactDataService.ContactExists(session.User, emailAddress))
+            {
+                throw new AddressBookDuplicateContactException();
+            }
+
+            var contact = _contactDataService.CreateContact(session.User);
+            contact.Emails.Add(
+                _contactDataService.CreateEmail(emailAddress)
+                );
+
+            _contactDataService.InsertContact(contact);
+
+            return contact;
         }
 
-        public void AddContact(ISession session, IContact contact)
-        {
-            throw new System.NotImplementedException();
-        }
+        #endregion
     }
 }

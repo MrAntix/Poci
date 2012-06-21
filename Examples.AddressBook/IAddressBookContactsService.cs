@@ -1,5 +1,5 @@
 ﻿using System;
-using Poci.Contacts.Data;
+using Examples.AddressBook.Data;
 using Poci.Security.Data;
 
 namespace Examples.AddressBook
@@ -7,7 +7,7 @@ namespace Examples.AddressBook
     public interface IAddressBookContactsService :
         IDisposable
     {
-        IContact CreateContact();
-        void AddContact(ISession session, IContact contact);
+        IAddressBookContact AddContact(
+            ISession session, string emailAddress, bool allowDuplicate);
     }
 }

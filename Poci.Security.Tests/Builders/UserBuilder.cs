@@ -11,46 +11,32 @@ namespace Poci.Security.Tests.Builders
         public const string RegisterUserEmail = "register.user@example.com";
         public const string CorrectPassword = "correctPassword";
 
-        public IUser BuildUser(
+        public IUser Build(
             string email,
             string passwordHash = "passwordHash",
             string name = "A User",
             bool active = true)
         {
-            var mock = new Mock<IUser>();
-            mock.SetupAllProperties();
+            var user = Mock.Of<IUser>();
 
-            mock
-                .Setup(o => o.Name)
-                .Returns(name);
-            mock
-                .Setup(o => o.Email)
-                .Returns(email);
-            mock
-                .Setup(o => o.PasswordHash)
-                .Returns(passwordHash);
-            mock
-                .Setup(o => o.Active)
-                .Returns(active);
+            user.Name = name;
+            user.Email = email;
+            user.PasswordHash = passwordHash;
+            user.Active = active;
 
-            return mock.Object;
+            return user;
         }
 
         public IUserLogOn BuildLogOn(
             string email,
             string password)
         {
-            var mock = new Mock<IUserLogOn>();
-            mock.SetupAllProperties();
+            var user = Mock.Of<IUserLogOn>();
 
-            mock
-                .Setup(o => o.Email)
-                .Returns(email);
-            mock
-                .Setup(o => o.Password)
-                .Returns(password);
+            user.Email = email;
+            user.Password = password;
 
-            return mock.Object;
+            return user;
         }
 
         public IUserRegister BuildRegister(
@@ -58,23 +44,14 @@ namespace Poci.Security.Tests.Builders
             string email,
             string password, string passwordConfirm)
         {
-            var mock = new Mock<IUserRegister>();
-            mock.SetupAllProperties();
+            var user = Mock.Of<IUserRegister>();
 
-            mock
-                .Setup(o => o.Name)
-                .Returns(name);
-            mock
-                .Setup(o => o.Email)
-                .Returns(email);
-            mock
-                .Setup(o => o.Password)
-                .Returns(password);
-            mock
-                .Setup(o => o.PasswordConfirm)
-                .Returns(passwordConfirm);
+            user.Name = name;
+            user.Email = email;
+            user.Password = password;
+            user.PasswordConfirm = passwordConfirm;
 
-            return mock.Object;
+            return user;
         }
     }
 }

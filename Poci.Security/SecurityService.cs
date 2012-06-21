@@ -3,24 +3,28 @@ using System.Linq;
 using Poci.Common.Security;
 using Poci.Common.Validation;
 using Poci.Security.Data;
-using Poci.Security.Data.Services;
+using Poci.Security.DataServices;
+using Poci.Security.Properties;
 using Poci.Security.Validation;
 
 namespace Poci.Security
 {
     public class SecurityService : ISecurityService
     {
-        readonly IUserDataService _dataService;
-
         readonly IHashService _hashService;
+        readonly ISessionDataService _sessionDataService;
+        readonly IUserDataService _userDataService;
         readonly IUserRegistrationValidator _userRegistrationValidator;
 
         public SecurityService(
-            IUserDataService dataService,
+            IUserDataService userDataService,
+            ISessionDataService sessionDataService,
             IHashService hashService,
             IUserRegistrationValidator userRegistrationValidator)
         {
-            _dataService = dataService;
+            _userDataService = userDataService;
+            _sessionDataService = sessionDataService;
+
             _hashService = hashService;
             _userRegistrationValidator = userRegistrationValidator;
         }
@@ -29,13 +33,11 @@ namespace Poci.Security
 
         ISession ISecurityService.LogOn(IUserLogOn credentials)
         {
-            var user = _dataService.GetUserByEmail(credentials.Email);
+            var user = _userDataService.GetUser(credentials.Email);
             if (user.Active
                 && user.PasswordHash == _hashService.Hash64(credentials.Password))
             {
-                var session = _dataService.CreateSession(user);
-
-                return session;
+                return CreateInsertSession(user);
             }
 
             return null;
@@ -43,21 +45,31 @@ namespace Poci.Security
 
         ISession ISecurityService.Register(IUserRegister details)
         {
-            if (!_dataService.UserExistsByEmail(details.Email))
+            if (!_userDataService.UserExists(details.Email))
             {
                 // validation
                 RegistrationValidate(details);
 
-                var user = _dataService.CreateUser(
+                var user = _userDataService.CreateUser(
                     details.Name, details.Email,
                     _hashService.Hash64(details.Password));
 
-                var session = _dataService.CreateSession(user);
-
-                return session;
+                return CreateInsertSession(user);
             }
 
             return null;
+        }
+
+        public bool SessionIsValid(ISession session)
+        {
+            return _sessionDataService.SessionExists(
+                session.Identifier, session.User, false);
+        }
+
+        public void AssertSessionIsValid(ISession session)
+        {
+            if (!SessionIsValid(session))
+                throw new InvalidSessionException();
         }
 
         void IDisposable.Dispose()
@@ -65,6 +77,20 @@ namespace Poci.Security
         }
 
         #endregion
+
+        ISession CreateInsertSession(IUser user)
+        {
+            var session = _sessionDataService.CreateSession(user);
+
+            session.Identifier = Guid.NewGuid();
+            session.CreatedOn = DateTime.UtcNow;
+            session.ExpiresOn = DateTime.UtcNow
+                .AddMinutes(Settings.Default.SessionExpiryMinutes);
+
+            _sessionDataService.InsertSession(session);
+
+            return session;
+        }
 
         void RegistrationValidate(
             IUserRegister details)

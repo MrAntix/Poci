@@ -9,11 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poci.Security", "Poci.Secur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poci.Security.Tests", "Poci.Security.Tests\Poci.Security.Tests.csproj", "{1769D790-9E3E-4624-8A43-11960A347A65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poci.Contacts", "Poci.Contacts\Poci.Contacts.csproj", "{84F56F83-A2BC-4206-A08E-9CE33AAA2BA0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.AddressBook.Tests", "Examples.AddressBook.Tests\Examples.AddressBook.Tests.csproj", "{5D9DF119-BD8D-4AEA-9B3B-AC3413A26EFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poci.Contacts.Tests", "Poci.Contacts.Tests\Poci.Contacts.Tests.csproj", "{EE9002FE-4836-4E68-8C0B-CDD60394FD61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poci.Contacts.Data", "Poci.Contacts.Data\Poci.Contacts.Data.csproj", "{84F56F83-A2BC-4206-A08E-9CE33AAA2BA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +43,6 @@ Global
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE9002FE-4836-4E68-8C0B-CDD60394FD61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE9002FE-4836-4E68-8C0B-CDD60394FD61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE9002FE-4836-4E68-8C0B-CDD60394FD61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE9002FE-4836-4E68-8C0B-CDD60394FD61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

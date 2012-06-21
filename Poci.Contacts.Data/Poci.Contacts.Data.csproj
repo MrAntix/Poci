@@ -7,8 +7,8 @@
     <ProjectGuid>{84F56F83-A2BC-4206-A08E-9CE33AAA2BA0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Poci.Contacts</RootNamespace>
-    <AssemblyName>Poci.Contacts</AssemblyName>
+    <RootNamespace>Poci.Contacts.Data</RootNamespace>
+    <AssemblyName>Poci.Contacts.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,12 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Countries.cs" />
-    <Compile Include="Data\IAddress.cs" />
-    <Compile Include="Data\IContact.cs" />
-    <Compile Include="Data\IEmail.cs" />
-    <Compile Include="Data\IPhone.cs" />
-    <Compile Include="Data\Services\IUserDataService.cs" />
+    <Compile Include="Countries.cs" />
+    <Compile Include="IAddress.cs" />
+    <Compile Include="IContact.cs" />
+    <Compile Include="IEmail.cs" />
+    <Compile Include="IPhone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

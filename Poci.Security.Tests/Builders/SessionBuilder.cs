@@ -7,35 +7,48 @@ namespace Poci.Security.Tests.Builders
     public class SessionBuilder
     {
         DateTime _createdOn;
+        DateTime _expiresOn;
+        Guid _identifier;
         IUser _user;
 
-        public SessionBuilder WithUser(IUser user)
+        public SessionBuilder WithIdentifier(Guid value)
         {
-            _user = user;
+            _identifier = value;
 
             return this;
         }
 
-        public SessionBuilder WithCreatedOn(DateTime createdOn)
+        public SessionBuilder WithUser(IUser value)
         {
-            _createdOn = createdOn;
+            _user = value;
+
+            return this;
+        }
+
+        public SessionBuilder WithCreatedOn(DateTime value)
+        {
+            _createdOn = value;
+
+            return this;
+        }
+
+        public SessionBuilder WithExpiresOn(DateTime value)
+        {
+            _expiresOn = value;
 
             return this;
         }
 
         public ISession Build()
         {
-            var mock = new Mock<ISession>();
-            mock.SetupAllProperties();
+            var session = Mock.Of<ISession>();
 
-            mock
-                .Setup(s => s.User)
-                .Returns(_user);
-            mock
-                .Setup(s => s.CreatedOn)
-                .Returns(_createdOn);
+            session.Identifier = _identifier;
+            session.User = _user;
+            session.CreatedOn = _createdOn;
+            session.ExpiresOn = _expiresOn;
 
-            return mock.Object;
+            return session;
         }
     }
 }
