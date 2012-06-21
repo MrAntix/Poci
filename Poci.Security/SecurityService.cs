@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Poci.Common.Security;
 using Poci.Common.Validation;
@@ -10,16 +8,16 @@ using Poci.Security.Validation;
 
 namespace Poci.Security
 {
-    public class UserService : IUserService
+    public class SecurityService : ISecurityService
     {
         readonly IUserDataService _dataService;
-        readonly IUserRegistrationValidator _userRegistrationValidator;
 
         readonly IHashService _hashService;
+        readonly IUserRegistrationValidator _userRegistrationValidator;
 
-        public UserService(
+        public SecurityService(
             IUserDataService dataService,
-            IHashService hashService, 
+            IHashService hashService,
             IUserRegistrationValidator userRegistrationValidator)
         {
             _dataService = dataService;
@@ -27,9 +25,9 @@ namespace Poci.Security
             _userRegistrationValidator = userRegistrationValidator;
         }
 
-        #region IUserService Members
+        #region ISecurityService Members
 
-        ISession IUserService.LogOn(IUserLogOn credentials)
+        ISession ISecurityService.LogOn(IUserLogOn credentials)
         {
             var user = _dataService.GetUserByEmail(credentials.Email);
             if (user.Active
@@ -43,7 +41,7 @@ namespace Poci.Security
             return null;
         }
 
-        ISession IUserService.Register(IUserRegister details)
+        ISession ISecurityService.Register(IUserRegister details)
         {
             if (!_dataService.UserExistsByEmail(details.Email))
             {

@@ -39,7 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressBookContactsService.cs" />
+    <Compile Include="IAddressBookContactsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Poci.Contacts\Poci.Contacts.csproj">
+      <Project>{84F56F83-A2BC-4206-A08E-9CE33AAA2BA0}</Project>
+      <Name>Poci.Contacts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Poci.Security\Poci.Security.csproj">
+      <Project>{DA5876BB-41E0-4532-AD2A-EA508611B585}</Project>
+      <Name>Poci.Security</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

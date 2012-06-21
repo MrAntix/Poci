@@ -3,12 +3,17 @@ using Poci.Security.Data;
 
 namespace Poci.Security.Tests.Builders
 {
-    internal class UserBuilder
+    public class UserBuilder
     {
+        public const string UserName = "userName";
+        public const string UserEmail = "user@example.com";
+        public const string InactiveUserEmail = "inactive.user@example.com";
+        public const string RegisterUserEmail = "register.user@example.com";
+        public const string CorrectPassword = "correctPassword";
 
         public IUser BuildUser(
             string email,
-            string passwordHash,
+            string passwordHash = "passwordHash",
             string name = "A User",
             bool active = true)
         {

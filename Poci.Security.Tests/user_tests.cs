@@ -8,11 +8,6 @@ namespace Poci.Security.Tests
     [TestClass]
     public class user_tests
     {
-        const string UserName = "userName";
-        const string UserEmail = "user@example.com";
-        const string InactiveUserEmail = "inactive.user@example.com";
-        const string RegisterUserEmail = "register.user@example.com";
-        const string CorrectPassword = "correctPassword";
         readonly IHashService _hashService = new MD5HashService();
 
         [TestMethod]
@@ -22,13 +17,13 @@ namespace Poci.Security.Tests
             {
                 var session = userService.LogOn(
                     new UserBuilder()
-                        .BuildLogOn(UserEmail, CorrectPassword)
+                        .BuildLogOn(UserBuilder.UserEmail, UserBuilder.CorrectPassword)
                     );
 
                 Assert.IsNotNull(session, "expected a session");
                 Assert.IsNotNull(session.User, "expected a session.User");
-                Assert.AreEqual(UserEmail, session.User.Email, "expected matching session.User.Email");
-                Assert.AreEqual(_hashService.Hash64(CorrectPassword), session.User.PasswordHash,
+                Assert.AreEqual(UserBuilder.UserEmail, session.User.Email, "expected matching session.User.Email");
+                Assert.AreEqual(_hashService.Hash64(UserBuilder.CorrectPassword), session.User.PasswordHash,
                                 "expected matching session.User.PasswordHash");
             }
         }
@@ -40,8 +35,8 @@ namespace Poci.Security.Tests
             {
                 var session = userService.LogOn(
                     new UserBuilder()
-                        .BuildLogOn(UserEmail,"someoldrubbish")
-                        );
+                        .BuildLogOn(UserBuilder.UserEmail, "someoldrubbish")
+                    );
 
                 Assert.IsNull(session, "expected no session");
             }
@@ -54,7 +49,7 @@ namespace Poci.Security.Tests
             {
                 var session = userService.LogOn(
                     new UserBuilder()
-                        .BuildLogOn(InactiveUserEmail, CorrectPassword)
+                        .BuildLogOn(UserBuilder.InactiveUserEmail, UserBuilder.CorrectPassword)
                     );
 
                 Assert.IsNull(session, "expected no session");
@@ -70,27 +65,30 @@ namespace Poci.Security.Tests
                     .Register(
                         new UserBuilder()
                             .BuildRegister(
-                                UserName, RegisterUserEmail,
-                                CorrectPassword, CorrectPassword)
+                                UserBuilder.UserName, UserBuilder.RegisterUserEmail,
+                                UserBuilder.CorrectPassword, UserBuilder.CorrectPassword)
                     );
 
                 Assert.IsNotNull(session, "expected a session");
                 Assert.IsNotNull(session.User, "expected a session.User");
-                Assert.AreEqual(UserName, session.User.Name, "expected matching session.User.Name");
-                Assert.AreEqual(RegisterUserEmail, session.User.Email, "expected matching session.User.Email");
-                Assert.AreEqual(_hashService.Hash64(CorrectPassword), session.User.PasswordHash,
+                Assert.AreEqual(UserBuilder.UserName, session.User.Name, "expected matching session.User.Name");
+                Assert.AreEqual(UserBuilder.RegisterUserEmail, session.User.Email,
+                                "expected matching session.User.Email");
+                Assert.AreEqual(_hashService.Hash64(UserBuilder.CorrectPassword), session.User.PasswordHash,
                                 "expected matching session.User.PasswordHash");
             }
         }
 
-        IUserService GetUserService()
+        ISecurityService GetUserService()
         {
             var userBuilder = new UserBuilder();
 
-            return new UserService(
+            return new SecurityService(
                 new UserDataServiceBuilder(_hashService)
-                    .WithUser(userBuilder.BuildUser(UserEmail, _hashService.Hash64(CorrectPassword)))
-                    .WithUser(userBuilder.BuildUser(InactiveUserEmail, _hashService.Hash64(CorrectPassword), active: false))
+                    .WithUser(userBuilder.BuildUser(UserBuilder.UserEmail,
+                                                    _hashService.Hash64(UserBuilder.CorrectPassword)))
+                    .WithUser(userBuilder.BuildUser(UserBuilder.InactiveUserEmail,
+                                                    _hashService.Hash64(UserBuilder.CorrectPassword), active: false))
                     .Build(),
                 _hashService,
                 new UserRegistrationValidator()

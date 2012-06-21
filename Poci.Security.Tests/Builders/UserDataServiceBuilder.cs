@@ -8,7 +8,7 @@ using Poci.Security.Data.Services;
 
 namespace Poci.Security.Tests.Builders
 {
-    internal class UserDataServiceBuilder
+    public class UserDataServiceBuilder
     {
         readonly IHashService _hashService;
         readonly IList<IUser> _users = new List<IUser>();
@@ -30,7 +30,7 @@ namespace Poci.Security.Tests.Builders
         public IUserDataService Build()
         {
             var mock = new Mock<IUserDataService>();
-           // mock.SetupAllProperties();
+            // mock.SetupAllProperties();
 
             mock.Setup(s => s.GetUserByEmail(It.IsAny<string>()))
                 .Returns((string email) => _users.Single(u => u.Email == email));

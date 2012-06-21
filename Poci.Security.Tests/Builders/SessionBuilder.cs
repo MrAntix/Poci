@@ -4,10 +4,10 @@ using Poci.Security.Data;
 
 namespace Poci.Security.Tests.Builders
 {
-    class SessionBuilder
+    public class SessionBuilder
     {
-        IUser _user;
         DateTime _createdOn;
+        IUser _user;
 
         public SessionBuilder WithUser(IUser user)
         {

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("Poci.Common")]
+[assembly: AssemblyTitle("Poci.Contacts")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Poci.Common")]
+[assembly: AssemblyProduct("Poci.Contacts")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("b39ec1ca-b6c3-43eb-afe7-9a9e3dcb0ca0")]
+[assembly: Guid("315ef01a-98c2-492e-bd7a-8513271d6a2c")]
 
 // Version information for an assembly consists of the following four values:
 //
