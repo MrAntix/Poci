@@ -59,7 +59,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Builders\AddressBookContactBuilder.cs" />
-    <Compile Include="Builders\ContactsDataServiceBuilder.cs" />
+    <Compile Include="Builders\AddressBookContactsDataServiceBuilder.cs" />
     <Compile Include="Builders\EmailBuilder.cs" />
     <Compile Include="ContactsTestsBase.cs" />
     <Compile Include="contact_tests_with_mock_data_layer.cs" />

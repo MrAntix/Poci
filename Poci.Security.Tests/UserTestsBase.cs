@@ -1,4 +1,5 @@
 ﻿using Poci.Common.Security;
+using Poci.Common.Validation;
 using Poci.Security.Tests.Builders;
 using Xunit;
 
@@ -71,6 +72,23 @@ namespace Poci.Security.Tests
                 Assert.Equal(UserBuilder.UserName, session.User.Name);
                 Assert.Equal(UserBuilder.RegisterUserEmail, session.User.Email);
                 Assert.Equal(HashService.Hash64(UserBuilder.CorrectPassword), session.User.PasswordHash);
+            }
+        }
+
+        [Fact]
+        public virtual void can_not_register_with_short_password()
+        {
+            using (var securityService = GetSecurityService())
+            {
+                Assert.Throws<ValidationResultsException>(
+                    () => securityService
+                              .Register(
+                                  new UserBuilder()
+                                      .BuildRegister(
+                                          UserBuilder.UserName, UserBuilder.RegisterUserEmail,
+                                          "a", "a")
+                              )
+                    );
             }
         }
 

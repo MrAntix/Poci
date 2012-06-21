@@ -32,6 +32,50 @@ namespace Examples.AddressBook.Tests
         }
 
         [Fact]
+        public void can_add_a_duplicate_contact_allowed()
+        {
+            using (var contactsService = GetContactsService())
+            {
+                contactsService
+                    .AddContact(
+                        Session,
+                        AddressBookContactBuilder.ContactEmail,
+                        true);
+
+                Assert.DoesNotThrow(
+                    () =>
+                    contactsService
+                        .AddContact(
+                            Session,
+                            AddressBookContactBuilder.ContactEmail,
+                            true)
+                    );
+            }
+        }
+
+        [Fact]
+        public void can_add_a_duplicate_contact_not_allowed()
+        {
+            using (var contactsService = GetContactsService())
+            {
+                contactsService
+                    .AddContact(
+                        Session,
+                        AddressBookContactBuilder.ContactEmail,
+                        true);
+
+                Assert.Throws<AddressBookDuplicateContactException>(
+                    () =>
+                    contactsService
+                        .AddContact(
+                            Session,
+                            AddressBookContactBuilder.ContactEmail,
+                            false)
+                    );
+            }
+        }
+
+        [Fact]
         public void can_list_contacts()
         {
             throw new NotImplementedException();

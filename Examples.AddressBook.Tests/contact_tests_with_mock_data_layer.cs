@@ -23,7 +23,7 @@ namespace Examples.AddressBook.Tests
                 .Build();
 
             return new AddressBookContactsService(
-                new ContactsDataServiceBuilder()
+                new AddressBookContactsDataServiceBuilder()
                     .Build(),
                 new SecurityService(
                     new UserDataServiceBuilder()
