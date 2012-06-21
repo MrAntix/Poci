@@ -4,7 +4,6 @@ using System.Linq;
 using Examples.AddressBook.Data;
 using Examples.AddressBook.DataServices;
 using Moq;
-using Poci.Contacts.Data;
 using Poci.Security.Data;
 
 namespace Examples.AddressBook.Tests.Builders

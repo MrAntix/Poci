@@ -32,7 +32,7 @@ namespace Examples.AddressBook.Tests
         }
 
         [Fact]
-        public void can_add_a_duplicate_contact_allowed()
+        public void can_add_a_duplicate_contact_when_allowed()
         {
             using (var contactsService = GetContactsService())
             {
@@ -54,7 +54,7 @@ namespace Examples.AddressBook.Tests
         }
 
         [Fact]
-        public void can_add_a_duplicate_contact_not_allowed()
+        public void can_not_add_a_duplicate_contact_when_not_allowed()
         {
             using (var contactsService = GetContactsService())
             {
