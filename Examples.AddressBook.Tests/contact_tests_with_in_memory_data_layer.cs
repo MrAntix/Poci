@@ -9,7 +9,7 @@ using Poci.Security.Validation;
 
 namespace Examples.AddressBook.Tests
 {
-    public class contact_tests_with_in_memory_data_layer: ContactsTestsBase
+    public class contact_tests_with_in_memory_data_layer : ContactsTestsBase
     {
         protected override IAddressBookContactsService GetContactsService(
             ref IEnumerable<IAddressBookContact> contacts)
@@ -27,14 +27,14 @@ namespace Examples.AddressBook.Tests
                 );
 
             dataContext.Sessions.Add(
-                Session=new InMemorySession
-                            {
-                                User = User,
-                                ExpiresOn = DateTime.UtcNow.AddDays(1)
-                            });
+                Session = new InMemorySession
+                              {
+                                  User = User,
+                                  ExpiresOn = DateTime.UtcNow.AddDays(1)
+                              });
 
             return new AddressBookContactsService(
-                new InMemoryAddressBookContactsDataService(dataContext), 
+                new InMemoryAddressBookContactsDataService(dataContext),
                 new SecurityService(
                     new InMemoryUserDataService(dataContext),
                     new InMemorySessionDataService(dataContext),
@@ -42,7 +42,6 @@ namespace Examples.AddressBook.Tests
                     new UserRegistrationValidator()
                     )
                 );
-
         }
     }
 }

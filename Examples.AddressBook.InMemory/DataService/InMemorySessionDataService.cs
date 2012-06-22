@@ -6,7 +6,7 @@ using Poci.Security.DataServices;
 
 namespace Examples.AddressBook.InMemory.DataService
 {
-    public class InMemorySessionDataService:
+    public class InMemorySessionDataService :
         ISessionDataService
     {
         readonly InMemoryDataContext _dataContext;
@@ -15,6 +15,8 @@ namespace Examples.AddressBook.InMemory.DataService
         {
             _dataContext = dataContext;
         }
+
+        #region ISessionDataService Members
 
         public ISession CreateSession(IUser user)
         {
@@ -31,7 +33,6 @@ namespace Examples.AddressBook.InMemory.DataService
 
         public void UpdateSession(ISession session)
         {
-            
         }
 
         public bool SessionExists(Guid identifier, IUser user, bool includeExpired)
@@ -42,5 +43,7 @@ namespace Examples.AddressBook.InMemory.DataService
                               && s.User == user
                               && (includeExpired || s.ExpiresOn > DateTime.UtcNow));
         }
+
+        #endregion
     }
 }

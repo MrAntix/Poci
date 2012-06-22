@@ -56,6 +56,10 @@
       <Project>{30E2B4C9-CF6E-4624-B2BC-3898CFFD0E4E}</Project>
       <Name>Examples.AddressBook</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Poci.Common\Poci.Common.csproj">
+      <Project>{65749625-A074-46DE-8D05-D7CEC0E610F9}</Project>
+      <Name>Poci.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Poci.Contacts.Data\Poci.Contacts.Data.csproj">
       <Project>{84F56F83-A2BC-4206-A08E-9CE33AAA2BA0}</Project>
       <Name>Poci.Contacts.Data</Name>

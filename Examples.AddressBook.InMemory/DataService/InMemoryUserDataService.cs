@@ -6,7 +6,7 @@ using Poci.Security.DataServices;
 
 namespace Examples.AddressBook.InMemory.DataService
 {
-    public class InMemoryUserDataService:
+    public class InMemoryUserDataService :
         IUserDataService
     {
         readonly InMemoryDataContext _dataContext;
@@ -15,6 +15,8 @@ namespace Examples.AddressBook.InMemory.DataService
         {
             _dataContext = dataContext;
         }
+
+        #region IUserDataService Members
 
         public IUser GetUser(string email)
         {
@@ -45,7 +47,8 @@ namespace Examples.AddressBook.InMemory.DataService
 
         public void UpdateUser(IUser user)
         {
-            
         }
+
+        #endregion
     }
 }
