@@ -1,5 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Examples.AddressBook.Data;
 using Examples.AddressBook.DataServices;
+using Examples.AddressBook.Properties;
 using Poci.Security;
 using Poci.Security.Data;
 
@@ -20,11 +24,7 @@ namespace Examples.AddressBook
 
         #region IAddressBookContactsService Members
 
-        public void Dispose()
-        {
-        }
-
-        public IAddressBookContact AddContact(
+        IAddressBookContact IAddressBookContactsService.AddContact(
             ISession session, string emailAddress, bool allowDuplicate)
         {
             _securityService.AssertSessionIsValid(session);
@@ -43,6 +43,15 @@ namespace Examples.AddressBook
             _contactDataService.InsertContact(contact);
 
             return contact;
+        }
+
+        async Task<IEnumerable<IAddressBookContact>> IAddressBookContactsService.Search(
+            ISession session, string text, string continuationToken)
+        {
+            _securityService.AssertSessionIsValid(session);
+
+            return await _contactDataService
+                .Search(text, continuationToken, Settings.Default.SearchCount);
         }
 
         #endregion

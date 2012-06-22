@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Examples.AddressBook.Data;
 using Examples.AddressBook.DataServices;
 using Moq;
@@ -10,12 +11,20 @@ namespace Examples.AddressBook.Tests.Builders
 {
     public class AddressBookContactsDataServiceBuilder
     {
-        public readonly IList<IAddressBookContact> Contacts = new List<IAddressBookContact>();
+        public readonly List<IAddressBookContact> Contacts = new List<IAddressBookContact>();
 
         public AddressBookContactsDataServiceBuilder WithContact(
             IAddressBookContact value)
         {
             Contacts.Add(value);
+
+            return this;
+        }
+
+        public AddressBookContactsDataServiceBuilder WithContacts(
+            IEnumerable<IAddressBookContact> contacts)
+        {
+            Contacts.AddRange(contacts);
 
             return this;
         }
@@ -47,10 +56,33 @@ namespace Examples.AddressBook.Tests.Builders
                                          .Any(e => e.Address.Equals(emailAddress, StringComparison.OrdinalIgnoreCase))
                                 )
                 );
+
             mock
                 .Setup(x => x.CreateEmail(It.IsAny<string>()))
                 .Returns(
                     (string emailAddress) => new EmailBuilder().Build(emailAddress)
+                );
+
+            mock
+                .Setup(x => x.Search(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+                .Returns(
+                    (string text,
+                     string continuationToken,
+                     int count) =>
+                        {
+                            int start;
+                            int.TryParse(continuationToken, out start);
+
+                            if (string.IsNullOrWhiteSpace(text))
+                                return Task.FromResult(
+                                    Contacts
+                                        .Skip(start).Take(count));
+
+                            return Task.FromResult(
+                                Contacts
+                                    .Where(c => c.Name.StartsWith(text, StringComparison.OrdinalIgnoreCase))
+                                    .Skip(start).Take(count));
+                        }
                 );
 
             return mock.Object;

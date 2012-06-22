@@ -72,10 +72,6 @@ namespace Poci.Security
                 throw new InvalidSessionException();
         }
 
-        void IDisposable.Dispose()
-        {
-        }
-
         #endregion
 
         ISession CreateInsertSession(IUser user)

@@ -1,13 +1,16 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Examples.AddressBook.Data;
 using Poci.Security.Data;
 
 namespace Examples.AddressBook
 {
-    public interface IAddressBookContactsService :
-        IDisposable
+    public interface IAddressBookContactsService
     {
         IAddressBookContact AddContact(
-            ISession session, string emailAddress, bool allowDuplicate);
+            ISession session, string emailAddress, bool allowDuplicate = false);
+
+        Task<IEnumerable<IAddressBookContact>> Search(
+            ISession session, string text, string continuationToken = null);
     }
 }

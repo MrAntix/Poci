@@ -1,10 +1,8 @@
-﻿using System;
-using Poci.Security.Data;
+﻿using Poci.Security.Data;
 
 namespace Poci.Security
 {
-    public interface ISecurityService :
-        IDisposable
+    public interface ISecurityService
     {
         ISession LogOn(IUserLogOn user);
         ISession Register(IUserRegister user);

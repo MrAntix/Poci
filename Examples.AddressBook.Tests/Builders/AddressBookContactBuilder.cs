@@ -26,6 +26,12 @@ namespace Examples.AddressBook.Tests.Builders
             return this;
         }
 
+        public AddressBookContactBuilder WithEmail(string value)
+        {
+            _emails.Add(new EmailBuilder().Build(value));
+            return this;
+        }
+
         public IAddressBookContact Build(IUser owner)
         {
             var mockObject = Mock.Of<IAddressBookContact>();

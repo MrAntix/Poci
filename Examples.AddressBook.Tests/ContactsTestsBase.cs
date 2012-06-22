@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Examples.AddressBook.Data;
 using Examples.AddressBook.Tests.Builders;
 using Poci.Common.Security;
 using Poci.Security.Data;
@@ -16,69 +19,97 @@ namespace Examples.AddressBook.Tests
         [Fact]
         public void can_add_a_new_contact()
         {
-            using (var contactsService = GetContactsService())
-            {
-                var contact = contactsService
-                    .AddContact(
-                        Session,
-                        AddressBookContactBuilder.ContactEmail,
-                        true);
+            IEnumerable<IAddressBookContact> contacts = null;
+            var contactsService = GetContactsService(ref contacts);
 
-                Assert.NotNull(contact);
-                Assert.NotNull(contact.Emails);
-                Assert.Equal(1, contact.Emails.Count);
-                Assert.Equal(AddressBookContactBuilder.ContactEmail, contact.Emails.First().Address);
-            }
+            var contact = contactsService
+                .AddContact(
+                    Session,
+                    AddressBookContactBuilder.ContactEmail,
+                    true);
+
+            Assert.NotNull(contact);
+            Assert.NotNull(contact.Emails);
+            Assert.Equal(1, contact.Emails.Count);
+            Assert.Equal(AddressBookContactBuilder.ContactEmail, contact.Emails.First().Address);
+
+            Assert.NotNull(contacts);
+            Assert.Equal(1, contacts.Count());
         }
 
         [Fact]
         public void can_add_a_duplicate_contact_when_allowed()
         {
-            using (var contactsService = GetContactsService())
-            {
+            IEnumerable<IAddressBookContact> contacts = null;
+            var contactsService = GetContactsService(ref contacts);
+
+            contactsService
+                .AddContact(
+                    Session,
+                    AddressBookContactBuilder.ContactEmail,
+                    true);
+
+            Assert.DoesNotThrow(
+                () =>
                 contactsService
                     .AddContact(
                         Session,
                         AddressBookContactBuilder.ContactEmail,
-                        true);
+                        true)
+                );
 
-                Assert.DoesNotThrow(
-                    () =>
-                    contactsService
-                        .AddContact(
-                            Session,
-                            AddressBookContactBuilder.ContactEmail,
-                            true)
-                    );
-            }
+            Assert.NotNull(contacts);
+            Assert.Equal(2, contacts.Count());
         }
 
         [Fact]
         public void can_not_add_a_duplicate_contact_when_not_allowed()
         {
-            using (var contactsService = GetContactsService())
-            {
+            IEnumerable<IAddressBookContact> contacts = null;
+            var contactsService = GetContactsService(ref contacts);
+
+            contactsService
+                .AddContact(
+                    Session,
+                    AddressBookContactBuilder.ContactEmail,
+                    true);
+
+            Assert.Throws<AddressBookDuplicateContactException>(
+                () =>
                 contactsService
                     .AddContact(
                         Session,
                         AddressBookContactBuilder.ContactEmail,
-                        true);
+                        false)
+                );
 
-                Assert.Throws<AddressBookDuplicateContactException>(
-                    () =>
-                    contactsService
-                        .AddContact(
-                            Session,
-                            AddressBookContactBuilder.ContactEmail,
-                            false)
-                    );
-            }
+            Assert.NotNull(contacts);
+            Assert.Equal(1, contacts.Count());
         }
 
         [Fact]
-        public void can_list_contacts()
+        public async Task can_list_contacts()
         {
-            throw new NotImplementedException();
+            var builder = new AddressBookContactBuilder();
+            IEnumerable<IAddressBookContact> contacts = new[]
+                               {
+                                   builder.WithName("One").WithEmail("one@example.com").Build(User),
+                                   builder.WithName("Two").WithEmail("two@example.com").Build(User)
+                               };
+
+            var contactsService = GetContactsService(ref contacts);
+
+            var text = string.Empty;
+            var continuationToken = string.Empty;
+            var searchResult =
+                await contactsService
+                          .Search(
+                              Session,
+                              text,
+                              continuationToken);
+
+            Assert.NotNull(searchResult);
+            Assert.Equal(contacts.Count(), searchResult.Count());
         }
 
         [Fact]
@@ -87,6 +118,13 @@ namespace Examples.AddressBook.Tests
             throw new NotImplementedException();
         }
 
-        protected abstract IAddressBookContactsService GetContactsService();
+        protected IAddressBookContactsService GetContactsService()
+        {
+            IEnumerable<IAddressBookContact> contacts = null;
+            return GetContactsService(ref contacts);
+        }
+
+        protected abstract IAddressBookContactsService GetContactsService(
+            ref IEnumerable<IAddressBookContact> contacts);
     }
 }

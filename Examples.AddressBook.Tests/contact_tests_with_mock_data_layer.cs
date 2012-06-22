@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Examples.AddressBook.Data;
 using Examples.AddressBook.Tests.Builders;
 using Poci.Security;
 using Poci.Security.Tests.Builders;
@@ -8,7 +10,8 @@ namespace Examples.AddressBook.Tests
 {
     public class contact_tests_with_mock_data_layer : ContactsTestsBase
     {
-        protected override IAddressBookContactsService GetContactsService()
+        protected override IAddressBookContactsService GetContactsService(
+            ref IEnumerable<IAddressBookContact> contacts)
         {
             var userBuilder = new UserBuilder();
 
@@ -22,9 +25,12 @@ namespace Examples.AddressBook.Tests
                 .WithExpiresOn(DateTime.UtcNow.AddDays(1))
                 .Build();
 
+            var dataServiceBuider = new AddressBookContactsDataServiceBuilder();
+            if (contacts != null) dataServiceBuider.WithContacts(contacts);
+            contacts = dataServiceBuider.Contacts;
+
             return new AddressBookContactsService(
-                new AddressBookContactsDataServiceBuilder()
-                    .Build(),
+                dataServiceBuider.Build(),
                 new SecurityService(
                     new UserDataServiceBuilder()
                         .WithUser(User)
