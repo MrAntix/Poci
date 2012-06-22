@@ -12,5 +12,11 @@ namespace Examples.AddressBook
 
         Task<IEnumerable<IAddressBookContact>> Search(
             ISession session, string text, string continuationToken = null);
+
+        void Delete(
+            ISession session, IAddressBookContact contact);
+
+        IEnumerable<IAddressBookContact> GetByEmail(
+            ISession session, string emailAddress);
     }
 }

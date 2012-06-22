@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -90,11 +89,15 @@ namespace Examples.AddressBook.Tests
         [Fact]
         public async Task can_list_contacts()
         {
-            var builder = new AddressBookContactBuilder();
-            IEnumerable<IAddressBookContact> contacts = new[]
+            var contacts = (IEnumerable<IAddressBookContact>)
+                           new[]
                                {
-                                   builder.WithName("One").WithEmail("one@example.com").Build(User),
-                                   builder.WithName("Two").WithEmail("two@example.com").Build(User)
+                                   new AddressBookContactBuilder()
+                                       .WithName("One").WithEmail("one@example.com")
+                                       .Build(User),
+                                   new AddressBookContactBuilder()
+                                       .WithName("Two").WithEmail("two@example.com")
+                                       .Build(User)
                                };
 
             var contactsService = GetContactsService(ref contacts);
@@ -113,9 +116,57 @@ namespace Examples.AddressBook.Tests
         }
 
         [Fact]
+        public void get_contacts_by_email()
+        {
+            const string sameEmailAddress = "same@example.com";
+
+            var contacts = (IEnumerable<IAddressBookContact>)
+                           new[]
+                               {
+                                   new AddressBookContactBuilder()
+                                       .WithName("One").WithEmail("one@example.com")
+                                       .Build(User),
+                                   new AddressBookContactBuilder()
+                                       .WithName("Two").WithEmail(sameEmailAddress)
+                                       .Build(User),
+                                   new AddressBookContactBuilder()
+                                       .WithName("Three").WithEmail(sameEmailAddress)
+                                       .Build(User)
+                               };
+
+            var contactsService = GetContactsService(ref contacts);
+
+            var results =
+                contactsService
+                    .GetByEmail(
+                        Session,
+                        sameEmailAddress);
+
+            Assert.NotNull(results);
+            Assert.Equal(2, results.Count());
+        }
+
+        [Fact]
         public void can_delete_a_contact()
         {
-            throw new NotImplementedException();
+            var builder = new AddressBookContactBuilder();
+
+            var contactToDelete = builder
+                .WithName("One").WithEmail("one@example.com")
+                .Build(User);
+            var contacts = (IEnumerable<IAddressBookContact>)
+                           new[]
+                               {
+                                   contactToDelete,
+                                   builder.WithName("Two").WithEmail("two@example.com").
+                                       Build(User)
+                               };
+
+            var contactsService = GetContactsService(ref contacts);
+
+            contactsService.Delete(Session, contactToDelete);
+
+            Assert.Equal(1, contacts.Count());
         }
 
         protected IAddressBookContactsService GetContactsService()

@@ -8,10 +8,15 @@ namespace Examples.AddressBook.DataServices
 {
     public interface IAddressBookContactsDataService
     {
-        IAddressBookContact CreateContact(IUser user);
-        void InsertContact(IAddressBookContact contact);
-        void UpdateContact(IAddressBookContact contact);
-        bool ContactExists(IUser user, string email);
+        bool Exists(IUser user, string email);
+
+        IAddressBookContact Create(IUser user);
+        void Insert(IAddressBookContact contact);
+        void Update(IAddressBookContact contact);
+        void Delete(IAddressBookContact contact);
+
+        IEnumerable<IAddressBookContact> ByEmailAddress(string emailAddress);
+
         IEmail CreateEmail(string emailAddress);
 
         Task<IEnumerable<IAddressBookContact>> Search(

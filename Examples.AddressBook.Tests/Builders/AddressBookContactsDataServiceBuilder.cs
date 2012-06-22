@@ -35,17 +35,25 @@ namespace Examples.AddressBook.Tests.Builders
             mock.SetupAllProperties();
 
             mock
-                .Setup(x => x.CreateContact(It.IsAny<IUser>()))
+                .Setup(x => x.Create(It.IsAny<IUser>()))
                 .Returns(
                     (IUser user) => new AddressBookContactBuilder().Build(user)
                 );
+
             mock
-                .Setup(x => x.InsertContact(It.IsAny<IAddressBookContact>()))
+                .Setup(x => x.Insert(It.IsAny<IAddressBookContact>()))
                 .Callback(
                     (IAddressBookContact contact) => Contacts.Add(contact)
                 );
+
             mock
-                .Setup(x => x.ContactExists(It.IsAny<IUser>(), It.IsAny<string>()))
+                .Setup(x => x.Delete(It.IsAny<IAddressBookContact>()))
+                .Callback(
+                    (IAddressBookContact contact) => Contacts.Remove(contact)
+                );
+
+            mock
+                .Setup(x => x.Exists(It.IsAny<IUser>(), It.IsAny<string>()))
                 .Returns((
                     IUser owner,
                     string emailAddress
@@ -60,8 +68,17 @@ namespace Examples.AddressBook.Tests.Builders
             mock
                 .Setup(x => x.CreateEmail(It.IsAny<string>()))
                 .Returns(
-                    (string emailAddress) => new EmailBuilder().Build(emailAddress)
+                    (string emailAddress) =>
+                    new EmailBuilder().Build(emailAddress)
                 );
+
+            mock
+                .Setup(x => x.ByEmailAddress(It.IsAny<string>()))
+                .Returns(
+                    (string emailAddress) =>
+                    Contacts
+                        .Where(
+                            c => c.Emails.Any(e => e.Address.Equals(emailAddress, StringComparison.OrdinalIgnoreCase))));
 
             mock
                 .Setup(x => x.Search(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))

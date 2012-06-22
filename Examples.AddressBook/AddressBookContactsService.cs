@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Examples.AddressBook.Data;
@@ -30,17 +29,17 @@ namespace Examples.AddressBook
             _securityService.AssertSessionIsValid(session);
 
             if (!allowDuplicate
-                && _contactDataService.ContactExists(session.User, emailAddress))
+                && _contactDataService.Exists(session.User, emailAddress))
             {
                 throw new AddressBookDuplicateContactException();
             }
 
-            var contact = _contactDataService.CreateContact(session.User);
+            var contact = _contactDataService.Create(session.User);
             contact.Emails.Add(
                 _contactDataService.CreateEmail(emailAddress)
                 );
 
-            _contactDataService.InsertContact(contact);
+            _contactDataService.Insert(contact);
 
             return contact;
         }
@@ -51,7 +50,25 @@ namespace Examples.AddressBook
             _securityService.AssertSessionIsValid(session);
 
             return await _contactDataService
-                .Search(text, continuationToken, Settings.Default.SearchCount);
+                             .Search(text, continuationToken, Settings.Default.SearchCount);
+        }
+
+        void IAddressBookContactsService.Delete(
+            ISession session, IAddressBookContact contact)
+        {
+            _securityService.AssertSessionIsValid(session);
+
+            _contactDataService
+                .Delete(contact);
+        }
+
+        public IEnumerable<IAddressBookContact> GetByEmail(
+            ISession session, string emailAddress)
+        {
+            _securityService.AssertSessionIsValid(session);
+
+            return _contactDataService
+                .ByEmailAddress(emailAddress);
         }
 
         #endregion

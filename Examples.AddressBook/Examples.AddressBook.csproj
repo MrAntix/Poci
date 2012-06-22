@@ -56,6 +56,10 @@
       <Project>{84F56F83-A2BC-4206-A08E-9CE33AAA2BA0}</Project>
       <Name>Poci.Contacts.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Poci.Security.Data\Poci.Security.Data.csproj">
+      <Project>{0528C173-C842-4ABC-8A0C-AF7BDE8063D8}</Project>
+      <Name>Poci.Security.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Poci.Security\Poci.Security.csproj">
       <Project>{DA5876BB-41E0-4532-AD2A-EA508611B585}</Project>
       <Name>Poci.Security</Name>
