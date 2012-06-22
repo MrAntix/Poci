@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poci.Contacts.Data", "Poci.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poci.Security.Data", "Poci.Security.Data\Poci.Security.Data.csproj", "{0528C173-C842-4ABC-8A0C-AF7BDE8063D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.AddressBook.InMemory", "Examples.AddressBook.InMemory\Examples.AddressBook.InMemory.csproj", "{FD4CC68C-03D4-4926-895C-F66A4522852F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD4CC68C-03D4-4926-895C-F66A4522852F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD4CC68C-03D4-4926-895C-F66A4522852F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD4CC68C-03D4-4926-895C-F66A4522852F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD4CC68C-03D4-4926-895C-F66A4522852F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

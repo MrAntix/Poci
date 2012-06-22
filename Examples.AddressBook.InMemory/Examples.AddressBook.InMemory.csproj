@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FD4CC68C-03D4-4926-895C-F66A4522852F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Examples.AddressBook.InMemory</RootNamespace>
+    <AssemblyName>Examples.AddressBook.InMemory</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataService\InMemoryAddressBookContactsDataService.cs" />
+    <Compile Include="DataService\InMemoryDataContext.cs" />
+    <Compile Include="DataService\InMemorySessionDataService.cs" />
+    <Compile Include="DataService\InMemoryUserDataService.cs" />
+    <Compile Include="Data\InMemoryAddress.cs" />
+    <Compile Include="Data\InMemoryAddressBookContact.cs" />
+    <Compile Include="Data\InMemoryEmail.cs" />
+    <Compile Include="Data\InMemoryPhone.cs" />
+    <Compile Include="Data\InMemorySession.cs" />
+    <Compile Include="Data\InMemoryUser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Examples.AddressBook\Examples.AddressBook.csproj">
+      <Project>{30E2B4C9-CF6E-4624-B2BC-3898CFFD0E4E}</Project>
+      <Name>Examples.AddressBook</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Poci.Contacts.Data\Poci.Contacts.Data.csproj">
+      <Project>{84F56F83-A2BC-4206-A08E-9CE33AAA2BA0}</Project>
+      <Name>Poci.Contacts.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Poci.Security.Data\Poci.Security.Data.csproj">
+      <Project>{0528C173-C842-4ABC-8A0C-AF7BDE8063D8}</Project>
+      <Name>Poci.Security.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Poci.Security\Poci.Security.csproj">
+      <Project>{DA5876BB-41E0-4532-AD2A-EA508611B585}</Project>
+      <Name>Poci.Security</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

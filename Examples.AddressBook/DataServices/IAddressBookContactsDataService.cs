@@ -17,7 +17,9 @@ namespace Examples.AddressBook.DataServices
 
         IEnumerable<IAddressBookContact> ByEmailAddress(string emailAddress);
 
-        IEmail CreateEmail(string emailAddress);
+        IEmail CreateEmail(string address);
+        IPhone CreatePhone(string number);
+        IAddress CreateAddress(string postcode);
 
         Task<IEnumerable<IAddressBookContact>> Search(
             string text, string continuationToken, int count);

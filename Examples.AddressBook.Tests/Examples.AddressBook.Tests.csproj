@@ -62,10 +62,15 @@
     <Compile Include="Builders\AddressBookContactsDataServiceBuilder.cs" />
     <Compile Include="Builders\EmailBuilder.cs" />
     <Compile Include="ContactsTestsBase.cs" />
+    <Compile Include="contact_tests_with_in_memory_data_layer.cs" />
     <Compile Include="contact_tests_with_mock_data_layer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Examples.AddressBook.InMemory\Examples.AddressBook.InMemory.csproj">
+      <Project>{FD4CC68C-03D4-4926-895C-F66A4522852F}</Project>
+      <Name>Examples.AddressBook.InMemory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Examples.AddressBook\Examples.AddressBook.csproj">
       <Project>{30E2B4C9-CF6E-4624-B2BC-3898CFFD0E4E}</Project>
       <Name>Examples.AddressBook</Name>
