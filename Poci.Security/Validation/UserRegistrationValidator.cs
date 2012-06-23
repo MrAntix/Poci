@@ -19,7 +19,8 @@ namespace Poci.Security.Validation
 
         IEnumerable<ValidationResult> ValidateInternal(IUserRegister user)
         {
-            if (user.Password.Length < Settings.Default.UserPasswordMinLength)
+            if (user.Password == null
+                || user.Password.Length < Settings.Default.UserPasswordMinLength)
             {
                 yield return new ValidationResult(
                     string.Format(Settings.Default.UserPasswordMinLengthValidationMessage,

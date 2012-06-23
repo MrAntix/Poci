@@ -88,6 +88,45 @@ namespace Poci.Security.Tests
         }
 
         [Fact]
+        public virtual void can_not_register_with_existing_email()
+        {
+            var securityService = GetSecurityService();
+
+            securityService
+                .Register(
+                    new UserBuilder()
+                        .BuildRegister(
+                            UserBuilder.UserName, UserBuilder.RegisterUserEmail,
+                            UserBuilder.CorrectPassword, UserBuilder.CorrectPassword)
+                );
+
+            Assert.Null(securityService
+                            .Register(
+                                new UserBuilder()
+                                    .BuildRegister(
+                                        UserBuilder.UserName, UserBuilder.RegisterUserEmail,
+                                        UserBuilder.CorrectPassword, UserBuilder.CorrectPassword)
+                            )
+                );
+        }
+
+        [Fact]
+        public virtual void can_not_register_with_null_password()
+        {
+            var securityService = GetSecurityService();
+
+            Assert.Throws<ValidationResultsException>(
+                () => securityService
+                          .Register(
+                              new UserBuilder()
+                                  .BuildRegister(
+                                      UserBuilder.UserName, UserBuilder.RegisterUserEmail,
+                                      null, null)
+                          )
+                );
+        }
+
+        [Fact]
         public virtual void session_is_valid_from_log_on()
         {
             var securityService = GetSecurityService();

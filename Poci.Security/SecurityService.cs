@@ -54,6 +54,8 @@ namespace Poci.Security
                     details.Name, details.Email,
                     _hashService.Hash64(details.Password));
 
+                _userDataService.InsertUser(user);
+
                 return CreateInsertSession(user);
             }
 
