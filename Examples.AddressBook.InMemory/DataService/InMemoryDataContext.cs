@@ -15,12 +15,35 @@ namespace Examples.AddressBook.InMemory.DataService
 
         #region IDataContext Members
 
-        void IDisposable.Dispose()
+        async Task IDataContext.CommitAsync()
         {
         }
 
-        async Task IDataContext.CommitAsync()
+        #endregion
+
+        #region IDisposable
+
+        bool _disposed;
+
+        public void Dispose()
         {
+            Dispose(true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed) return;
+
+            if (disposing)
+            {
+                // Dispose managed resources.
+            }
+
+            // unmanaged resources here.
+
+            _disposed = true;
         }
 
         #endregion

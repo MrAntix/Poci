@@ -21,6 +21,8 @@ Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "Examples.AddressBook.UI.JsM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.AddressBook.Api", "Examples.AddressBook.Api\Examples.AddressBook.Api.csproj", "{7E15F9CF-F01B-4CC2-8128-A91AD80973F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.AddressBook.Api.IntegrationTests", "Examples.AddressBook.Api.IntegrationTests\Examples.AddressBook.Api.IntegrationTests.csproj", "{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -137,6 +139,16 @@ Global
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Release|x64.ActiveCfg = Release|Any CPU
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Release|x86.ActiveCfg = Release|Any CPU
+		{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}.Release|x64.ActiveCfg = Release|Any CPU
+		{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}.Release|x86.ActiveCfg = Release|Any CPU
 		{FD4CC68C-03D4-4926-895C-F66A4522852F}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{FD4CC68C-03D4-4926-895C-F66A4522852F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD4CC68C-03D4-4926-895C-F66A4522852F}.Debug|Any CPU.Build.0 = Debug|Any CPU

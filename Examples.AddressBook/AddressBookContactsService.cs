@@ -23,7 +23,7 @@ namespace Examples.AddressBook
 
         #region IAddressBookContactsService Members
 
-        IAddressBookContact IAddressBookContactsService.AddContact(
+        public IAddressBookContact AddContact(
             ISession session, string emailAddress, bool allowDuplicate)
         {
             _securityService.AssertSessionIsValid(session);
@@ -44,7 +44,7 @@ namespace Examples.AddressBook
             return contact;
         }
 
-        async Task<IEnumerable<IAddressBookContact>> IAddressBookContactsService.Search(
+        public async Task<IEnumerable<IAddressBookContact>> Search(
             ISession session, string text, string continuationToken)
         {
             _securityService.AssertSessionIsValid(session);
@@ -53,7 +53,7 @@ namespace Examples.AddressBook
                              .Search(text, continuationToken, Settings.Default.SearchCount);
         }
 
-        void IAddressBookContactsService.Delete(
+        public void Delete(
             ISession session, IAddressBookContact contact)
         {
             _securityService.AssertSessionIsValid(session);

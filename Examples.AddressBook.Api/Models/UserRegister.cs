@@ -2,7 +2,8 @@
 
 namespace Examples.AddressBook.Api.Models
 {
-    public class UserRegister : IUserRegister
+    public class UserRegister : 
+        IUserRegister
     {
         #region IUserRegister Members
 

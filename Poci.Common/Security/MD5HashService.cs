@@ -33,5 +33,33 @@ namespace Poci.Common.Security
                        ? Convert.ToBase64String(bytes)
                        : Encoding.Default.GetString(bytes);
         }
+
+        #region IDisposable
+
+        bool _disposed;
+
+        public void Dispose()
+        {
+            Dispose(true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed) return;
+
+            if (disposing)
+            {
+                // Dispose managed resources.
+                _service.Dispose();
+            }
+
+            // unmanaged resources here.
+
+            _disposed = true;
+        }
+
+        #endregion
     }
 }
