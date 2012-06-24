@@ -8,7 +8,7 @@ using Poci.Security.Data;
 
 namespace Examples.AddressBook
 {
-    public class AddressBookContactsService : IAddressBookContactsService
+    public sealed class AddressBookContactsService : IAddressBookContactsService
     {
         readonly IAddressBookContactsDataService _contactDataService;
         readonly ISecurityService _securityService;
@@ -23,7 +23,7 @@ namespace Examples.AddressBook
 
         #region IAddressBookContactsService Members
 
-        public IAddressBookContact AddContact(
+        IAddressBookContact IAddressBookContactsService.AddContact(
             ISession session, string emailAddress, bool allowDuplicate)
         {
             _securityService.AssertSessionIsValid(session);
@@ -44,7 +44,7 @@ namespace Examples.AddressBook
             return contact;
         }
 
-        public async Task<IEnumerable<IAddressBookContact>> Search(
+        async Task<IEnumerable<IAddressBookContact>> IAddressBookContactsService.Search(
             ISession session, string text, string continuationToken)
         {
             _securityService.AssertSessionIsValid(session);
@@ -53,7 +53,7 @@ namespace Examples.AddressBook
                              .Search(text, continuationToken, Settings.Default.SearchCount);
         }
 
-        public void Delete(
+        void IAddressBookContactsService.Delete(
             ISession session, IAddressBookContact contact)
         {
             _securityService.AssertSessionIsValid(session);
@@ -62,7 +62,7 @@ namespace Examples.AddressBook
                 .Delete(contact);
         }
 
-        public IEnumerable<IAddressBookContact> GetByEmail(
+        IEnumerable<IAddressBookContact> IAddressBookContactsService.GetByEmail(
             ISession session, string emailAddress)
         {
             _securityService.AssertSessionIsValid(session);

@@ -8,6 +8,7 @@
   <FrameworkUtilisationTypeForMSTest>UseStaticAnalysis</FrameworkUtilisationTypeForMSTest>
   <EngineModes>Run all tests automatically:BFRydWU=;Run all tests manually:BUZhbHNl;Run impacted tests automatically, others manually (experimental!):CklzSW1wYWN0ZWQ=;Run pinned tests automatically, others manually:CElzUGlubmVk</EngineModes>
   <MetricsExclusionList>
+Examples.AddressBook.Api\Examples.AddressBook.Api.csproj:Global.asax.cs
 Poci.Common\Poci.Common.csproj\Validation
 Poci.Security\Poci.Security.csproj\Properties
 </MetricsExclusionList>

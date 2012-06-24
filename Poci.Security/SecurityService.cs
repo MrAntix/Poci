@@ -9,7 +9,7 @@ using Poci.Security.Validation;
 
 namespace Poci.Security
 {
-    public class SecurityService : ISecurityService
+    public sealed class SecurityService : ISecurityService
     {
         readonly IHashService _hashService;
         readonly ISessionDataService _sessionDataService;

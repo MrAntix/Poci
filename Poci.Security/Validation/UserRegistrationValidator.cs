@@ -6,7 +6,7 @@ using Poci.Security.Properties;
 
 namespace Poci.Security.Validation
 {
-    public class UserRegistrationValidator : IUserRegistrationValidator
+    public sealed class UserRegistrationValidator : IUserRegistrationValidator
     {
         #region IUserRegistrationValidator Members
 

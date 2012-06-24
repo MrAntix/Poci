@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
@@ -6,7 +7,8 @@ using System.Web.Http;
 
 namespace Examples.AddressBook.Api.IntegrationTests
 {
-    public abstract class WebApiTestBase
+    public abstract class WebApiTestBase :
+        IDisposable
     {
         protected readonly HttpServer Server;
         protected string RootUrl = "http://test.example/";
@@ -26,6 +28,9 @@ namespace Examples.AddressBook.Api.IntegrationTests
             Server = new HttpServer(config);
         }
 
+        #region IDisposable Members
+
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         public void Dispose()
         {
             if (Server != null)
@@ -33,6 +38,8 @@ namespace Examples.AddressBook.Api.IntegrationTests
                 Server.Dispose();
             }
         }
+
+        #endregion
 
         protected HttpRequestMessage CreateRequest(
             string url, string contentType,

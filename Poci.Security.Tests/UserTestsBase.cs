@@ -1,13 +1,30 @@
-﻿using Poci.Common.Security;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using Poci.Common.Security;
 using Poci.Common.Validation;
 using Poci.Security.Tests.Builders;
 using Xunit;
 
 namespace Poci.Security.Tests
 {
-    public abstract class UserTestsBase
+    public abstract class UserTestsBase :
+        IDisposable
     {
         protected readonly IHashService HashService = new MD5HashService();
+
+        #region IDisposable Members
+
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
+        public void Dispose()
+        {
+            HashService.Dispose();
+        }
+
+        #endregion
 
         [Fact]
         public virtual void can_log_on()

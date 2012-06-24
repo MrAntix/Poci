@@ -1,9 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Security.Policy;
 using Examples.AddressBook.Api.Models;
 using Xunit;
 
@@ -13,9 +10,8 @@ namespace Examples.AddressBook.Api.IntegrationTests
         WebApiTestBase
     {
         [Fact]
-        public void CanRegisterWithCorrectModel()
+        public async void CanRegisterWithCorrectModel()
         {
-
             var client = new HttpClient(Server);
             var request = CreateRequest(
                 "api/Register/", "application/json", HttpMethod.Post,
@@ -27,19 +23,16 @@ namespace Examples.AddressBook.Api.IntegrationTests
                         PasswordConfirm = "test"
                     });
 
-            using (var response = client.SendAsync(request).Result)
+            using (var response = await client.SendAsync(request))
             {
                 Assert.Equal(HttpStatusCode.Accepted, response.StatusCode);
                 Assert.NotNull(response.Content);
-                var guid = response.Content.ReadAsAsync<Guid>().Result;
+                var guid = await response.Content.ReadAsAsync<Guid>();
 
                 Assert.NotEqual(Guid.Empty, guid);
-
             }
 
             request.Dispose();
-
         }
-
     }
 }

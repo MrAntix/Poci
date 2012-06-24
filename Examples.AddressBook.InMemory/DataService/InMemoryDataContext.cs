@@ -7,7 +7,7 @@ using Poci.Security.Data;
 
 namespace Examples.AddressBook.InMemory.DataService
 {
-    public class InMemoryDataContext : IDataContext
+    public sealed class InMemoryDataContext : IDataContext
     {
         public List<IAddressBookContact> Contacts = new List<IAddressBookContact>();
         public List<ISession> Sessions = new List<ISession>();
@@ -32,7 +32,7 @@ namespace Examples.AddressBook.InMemory.DataService
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        void Dispose(bool disposing)
         {
             if (_disposed) return;
 

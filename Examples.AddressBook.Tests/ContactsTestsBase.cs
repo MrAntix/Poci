@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Examples.AddressBook.Data;
@@ -9,11 +11,26 @@ using Xunit;
 
 namespace Examples.AddressBook.Tests
 {
-    public abstract class ContactsTestsBase
+    public abstract class ContactsTestsBase :
+        IDisposable
     {
         protected readonly IHashService HashService = new MD5HashService();
         protected ISession Session;
         protected IUser User;
+
+        #region IDisposable Members
+
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
+        public void Dispose()
+        {
+            HashService.Dispose();
+        }
+
+        #endregion
 
         [Fact]
         public void can_add_a_new_contact()

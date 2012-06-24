@@ -31,8 +31,7 @@ namespace Poci.Common.Validation
                 throw new ArgumentNullException("info");
 
             info.AddValue("Results", _results);
-            base.GetObjectData(info,context);
+            base.GetObjectData(info, context);
         }
-
     }
 }
