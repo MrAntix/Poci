@@ -17,11 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poci.Security.Data", "Poci.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.AddressBook.InMemory", "Examples.AddressBook.InMemory\Examples.AddressBook.InMemory.csproj", "{FD4CC68C-03D4-4926-895C-F66A4522852F}"
 EndProject
-Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "Examples.AddressBook.UI.JsMetro", "Examples.AddressBook.UI.JsMetro\Examples.AddressBook.UI.JsMetro.jsproj", "{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.AddressBook.Api", "Examples.AddressBook.Api\Examples.AddressBook.Api.csproj", "{7E15F9CF-F01B-4CC2-8128-A91AD80973F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.AddressBook.Api.IntegrationTests", "Examples.AddressBook.Api.IntegrationTests\Examples.AddressBook.Api.IntegrationTests.csproj", "{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.AddressBook.Api.Tests", "Examples.AddressBook.Api.Tests\Examples.AddressBook.Api.Tests.csproj", "{F5AF0E27-4C81-4316-B91B-A20A3F6F4DAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,30 +103,6 @@ Global
 		{84F56F83-A2BC-4206-A08E-9CE33AAA2BA0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{84F56F83-A2BC-4206-A08E-9CE33AAA2BA0}.Release|x64.ActiveCfg = Release|Any CPU
 		{84F56F83-A2BC-4206-A08E-9CE33AAA2BA0}.Release|x86.ActiveCfg = Release|Any CPU
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|ARM.ActiveCfg = Debug|ARM
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|ARM.Build.0 = Debug|ARM
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|ARM.Deploy.0 = Debug|ARM
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|x64.ActiveCfg = Debug|x64
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|x64.Build.0 = Debug|x64
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|x64.Deploy.0 = Debug|x64
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|x86.ActiveCfg = Debug|x86
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|x86.Build.0 = Debug|x86
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Debug|x86.Deploy.0 = Debug|x86
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|ARM.ActiveCfg = Release|ARM
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|ARM.Build.0 = Release|ARM
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|ARM.Deploy.0 = Release|ARM
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|x64.ActiveCfg = Release|x64
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|x64.Build.0 = Release|x64
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|x64.Deploy.0 = Release|x64
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|x86.ActiveCfg = Release|x86
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|x86.Build.0 = Release|x86
-		{CF732BA1-BB27-4102-B2B7-9B6BE5FE825A}.Release|x86.Deploy.0 = Release|x86
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DA5876BB-41E0-4532-AD2A-EA508611B585}.Debug|Any CPU.Build.0 = Debug|Any CPU
