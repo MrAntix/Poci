@@ -94,5 +94,14 @@ namespace Poci.Security.Properties {
                 return ((int)(this["SessionExpiryMinutes"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Password and password confirmation do not match")]
+        public string UserPasswordConfirmMismatchValidationMessage {
+            get {
+                return ((string)(this["UserPasswordConfirmMismatchValidationMessage"]));
+            }
+        }
     }
 }

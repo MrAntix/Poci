@@ -1,15 +1,16 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
 
 namespace Examples.AddressBook.Api
 {
-    public class ValidationActionFilterAttribute : System.Web.Http.Filters.ActionFilterAttribute
+    public class ValidationActionFilterAttribute : ActionFilterAttribute
     {
-        public override void OnActionExecuting(System.Web.Http.Controllers.HttpActionContext context)
+        public override void OnActionExecuting(HttpActionContext context)
         {
-            if(!context.ModelState.IsValid)
+            if (!context.ModelState.IsValid)
             {
                 context.Response =
                     context.Request.CreateResponse(
@@ -19,7 +20,7 @@ namespace Examples.AddressBook.Api
                         where v.Errors.Any()
                         select new
                                    {
-                                       name=k,
+                                       name = k,
                                        errors = v.Errors
                                    }
                         );

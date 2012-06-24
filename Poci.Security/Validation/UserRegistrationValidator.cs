@@ -27,6 +27,12 @@ namespace Poci.Security.Validation
                                   Settings.Default.UserPasswordMinLength),
                     new[] {"Password"});
             }
+            else if (user.Password != user.PasswordConfirm)
+            {
+                yield return new ValidationResult(
+                    Settings.Default.UserPasswordConfirmMismatchValidationMessage,
+                    new[] {"Password"});
+            }
         }
     }
 }

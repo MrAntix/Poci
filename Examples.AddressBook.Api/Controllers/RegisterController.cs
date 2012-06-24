@@ -34,7 +34,7 @@ namespace Examples.AddressBook.Api.Controllers
             }
             catch (ValidationResultsException vex)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, vex);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, vex.Results);
             }
         }
     }

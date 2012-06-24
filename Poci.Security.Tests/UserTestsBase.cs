@@ -88,6 +88,22 @@ namespace Poci.Security.Tests
         }
 
         [Fact]
+        public virtual void can_not_register_with_password_confirm_mismatch()
+        {
+            var securityService = GetSecurityService();
+
+            Assert.Throws<ValidationResultsException>(
+                () => securityService
+                          .Register(
+                              new UserBuilder()
+                                  .BuildRegister(
+                                      UserBuilder.UserName, UserBuilder.RegisterUserEmail,
+                                      "abcde", "abcdef")
+                          )
+                );
+        }
+
+        [Fact]
         public virtual void can_not_register_with_existing_email()
         {
             var securityService = GetSecurityService();

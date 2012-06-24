@@ -48,7 +48,7 @@ namespace Examples.AddressBook.Api
 
         public object GetService(Type serviceType)
         {
-            if (serviceType == typeof(RegisterController))
+            if (serviceType == typeof (RegisterController))
             {
                 return new RegisterController(
                     GetService<ISecurityService>()
