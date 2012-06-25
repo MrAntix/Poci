@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
 using Examples.AddressBook.Api.Controllers;
-using Examples.AddressBook.InMemory.DataService;
+using Examples.AddressBook.EF.DataService;
 using Poci.Common.Security;
 using Poci.Security;
 using Poci.Security.DataServices;
@@ -13,8 +13,8 @@ namespace Examples.AddressBook.Api.App_Start
     public class ApplicationResolver :
         IDependencyResolver
     {
-        readonly InMemoryDataContext _dataContext
-            = new InMemoryDataContext();
+        readonly EFDataContext _dataContext
+            = new EFDataContext();
 
         #region IDependencyResolver Members
 
@@ -39,10 +39,10 @@ namespace Examples.AddressBook.Api.App_Start
                     );
 
             if (serviceType == typeof (IUserDataService))
-                return new InMemoryUserDataService(_dataContext);
+                return new EFUserDataService(_dataContext);
 
             if (serviceType == typeof (ISessionDataService))
-                return new InMemorySessionDataService(_dataContext);
+                return new EFSessionDataService(_dataContext);
 
             if (serviceType == typeof (IHashService))
                 return new MD5HashService();
