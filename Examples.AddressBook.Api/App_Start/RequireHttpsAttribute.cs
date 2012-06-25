@@ -5,7 +5,7 @@ using System.Text;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace Examples.AddressBook.Api
+namespace Examples.AddressBook.Api.App_Start
 {
     public class RequireHttpsAttribute : AuthorizationFilterAttribute
     {

@@ -4,12 +4,17 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using Examples.AddressBook.Api.Tests.Application;
+using Examples.AddressBook.InMemory.DataService;
+using Poci.Common.Security;
 
-namespace Examples.AddressBook.Api.IntegrationTests
+namespace Examples.AddressBook.Api.Tests
 {
     public abstract class WebApiTestBase :
         IDisposable
     {
+        protected readonly InMemoryDataContext DataContext;
+        protected readonly IHashService HashService;
         protected readonly HttpServer Server;
         protected string RootUrl = "http://test.example/";
 
@@ -23,7 +28,9 @@ namespace Examples.AddressBook.Api.IntegrationTests
                 );
 
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-            config.DependencyResolver = new ApplicationResolver();
+            config.DependencyResolver = new ApplicationResolver(
+                DataContext = new InMemoryDataContext(),
+                HashService  = new MD5HashService());
 
             Server = new HttpServer(config);
         }
@@ -41,28 +48,45 @@ namespace Examples.AddressBook.Api.IntegrationTests
 
         #endregion
 
-        protected HttpRequestMessage CreateRequest(
-            string url, string contentType,
-            HttpMethod method)
+        HttpRequestMessage CreateRequest(
+            string url, 
+            string contentType = null,
+            HttpMethod method = null)
         {
             var request = new HttpRequestMessage
                               {
                                   RequestUri = new Uri(RootUrl + url)
                               };
 
-            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(contentType));
-            request.Method = method;
+            request.Headers.Accept.Add(
+                new MediaTypeWithQualityHeaderValue(contentType ?? "application/json")
+                );
+            request.Method = method ?? HttpMethod.Get;
 
             return request;
         }
 
-        protected HttpRequestMessage CreateRequest<T>(
-            string url, string contentType,
-            HttpMethod method,
+        private HttpRequestMessage CreateGet(
+            string url,
+            string contentType = null)
+        {
+            return CreateRequest(
+                url,
+                contentType,
+                HttpMethod.Post);
+        }
+
+        protected HttpRequestMessage CreatePost<T>(
+            string url,
             T content,
+            string contentType = null,
             MediaTypeFormatter formatter = null) where T : class
         {
-            var request = CreateRequest(url, contentType, method);
+            var request = CreateRequest(
+                url, 
+                contentType, 
+                HttpMethod.Post);
+
             request.Content = new ObjectContent<T>(
                 content,
                 formatter ?? new JsonMediaTypeFormatter());

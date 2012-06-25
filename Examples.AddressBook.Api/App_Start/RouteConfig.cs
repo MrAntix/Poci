@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Examples.AddressBook.Api
+namespace Examples.AddressBook.Api.App_Start
 {
     public class RouteConfig
     {

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Examples.AddressBook.Api
+namespace Examples.AddressBook.Api.App_Start
 {
     public class FilterConfig
     {

@@ -8,13 +8,13 @@ using Poci.Security;
 using Poci.Security.DataServices;
 using Poci.Security.Validation;
 
-namespace Examples.AddressBook.Api.App_Start
+namespace Examples.AddressBook.Api.Tests.Application
 {
     public class ApplicationResolver :
         IDependencyResolver
     {
-        readonly InMemoryDataContext _dataContext
-            = new InMemoryDataContext();
+        readonly InMemoryDataContext _dataContext;
+        readonly IHashService _hashService;
 
         #region IDependencyResolver Members
 
@@ -45,7 +45,7 @@ namespace Examples.AddressBook.Api.App_Start
                 return new InMemorySessionDataService(_dataContext);
 
             if (serviceType == typeof (IHashService))
-                return new MD5HashService();
+                return _hashService;
 
             if (serviceType == typeof (IUserRegistrationValidator))
                 return new UserRegistrationValidator();
@@ -68,6 +68,14 @@ namespace Examples.AddressBook.Api.App_Start
         #region IDisposable
 
         bool _disposed;
+
+        public ApplicationResolver(
+            InMemoryDataContext dataContext, 
+            IHashService hashService)
+        {
+            _dataContext = dataContext;
+            _hashService = hashService;
+        }
 
         public void Dispose()
         {
@@ -98,6 +106,4 @@ namespace Examples.AddressBook.Api.App_Start
             return (T) GetService(typeof (T));
         }
     }
-
-  
 }
