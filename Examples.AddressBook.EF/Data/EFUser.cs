@@ -2,7 +2,7 @@
 
 namespace Examples.AddressBook.EF.Data
 {
-    public class EFUser : EFBase<IUser>, IUser
+    public class EFUser : EFBase, IUser
     {
         #region IUser Members
 

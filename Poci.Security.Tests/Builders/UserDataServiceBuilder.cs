@@ -3,12 +3,16 @@ using System.Linq;
 using Moq;
 using Poci.Security.Data;
 using Poci.Security.DataServices;
+using Poci.Testing;
 
 namespace Poci.Security.Tests.Builders
 {
     public class UserDataServiceBuilder
     {
         public readonly IList<IUser> Users = new List<IUser>();
+
+        readonly Builder<IUser> _userBuilder = new Builder<IUser>()
+            .CreateWith(Mock.Of<IUser>);
 
         public UserDataServiceBuilder WithUser(
             IUser user)
@@ -23,7 +27,7 @@ namespace Poci.Security.Tests.Builders
             var mock = new Mock<IUserDataService>();
             mock.SetupAllProperties();
 
-            mock.Setup(s => s.GetUser(It.IsAny<string>()))
+            mock.Setup(s => s.TryGetUser(It.IsAny<string>()))
                 .Returns((string email) => Users.Single(u => u.Email == email));
 
             mock.Setup(s => s.UserExists(It.IsAny<string>()))
@@ -37,8 +41,15 @@ namespace Poci.Security.Tests.Builders
                     string name,
                     string email,
                     string passwordHash)
-                         => new UserBuilder()
-                                .Build(email, passwordHash, name));
+                         => _userBuilder
+                                .Build(
+                                    u =>
+                                        {
+                                            u.Email = email;
+                                            u.PasswordHash = passwordHash;
+                                            u.Name = name;
+                                        })
+                );
 
             return mock.Object;
         }

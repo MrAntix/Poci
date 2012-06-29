@@ -11,6 +11,8 @@
     <AssemblyName>Examples.AddressBook.EF</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0-rc\lib\net45\EntityFramework.dll</HintPath>
@@ -45,17 +50,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataService\EFMapper.cs" />
     <Compile Include="DataService\EFAddressBookContactsDataService.cs" />
     <Compile Include="DataService\EFDataContext.cs" />
     <Compile Include="DataService\EFSessionDataService.cs" />
     <Compile Include="DataService\EFUserDataService.cs" />
     <Compile Include="Data\EFAddress.cs" />
-    <Compile Include="Data\EFContact.cs" />
     <Compile Include="Data\EFBase.cs" />
+    <Compile Include="Data\EFContact.cs" />
     <Compile Include="Data\EFEmail.cs" />
     <Compile Include="Data\EFPhone.cs" />
     <Compile Include="Data\EFSession.cs" />
     <Compile Include="Data\EFUser.cs" />
+    <Compile Include="Data\Mapping.cs" />
+    <Compile Include="Data\MappingCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +93,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

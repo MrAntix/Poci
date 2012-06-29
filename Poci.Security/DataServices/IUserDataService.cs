@@ -4,7 +4,7 @@ namespace Poci.Security.DataServices
 {
     public interface IUserDataService
     {
-        IUser GetUser(
+        IUser TryGetUser(
             string email);
 
         bool UserExists(

@@ -33,8 +33,9 @@ namespace Poci.Security
 
         ISession ISecurityService.LogOn(IUserLogOn credentials)
         {
-            var user = _userDataService.GetUser(credentials.Email);
-            if (user.Active
+            var user = _userDataService.TryGetUser(credentials.Email);
+            if (user != null
+                && user.Active
                 && user.PasswordHash == _hashService.Hash64(credentials.Password))
             {
                 return CreateInsertSession(user);
@@ -54,6 +55,8 @@ namespace Poci.Security
                     details.Name, details.Email,
                     _hashService.Hash64(details.Password));
 
+                user.Active = true;
+
                 _userDataService.InsertUser(user);
 
                 return CreateInsertSession(user);
@@ -64,8 +67,9 @@ namespace Poci.Security
 
         public bool SessionIsValid(ISession session)
         {
-            return _sessionDataService.SessionExists(
-                session.Identifier, session.User, false);
+            return session != null
+                   && _sessionDataService
+                          .SessionExists(session.Identifier, session.User, false);
         }
 
         public void AssertSessionIsValid(ISession session)

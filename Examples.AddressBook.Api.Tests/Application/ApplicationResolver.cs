@@ -70,7 +70,7 @@ namespace Examples.AddressBook.Api.Tests.Application
         bool _disposed;
 
         public ApplicationResolver(
-            InMemoryDataContext dataContext, 
+            InMemoryDataContext dataContext,
             IHashService hashService)
         {
             _dataContext = dataContext;

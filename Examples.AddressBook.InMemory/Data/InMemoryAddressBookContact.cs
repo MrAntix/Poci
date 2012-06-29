@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Examples.AddressBook.Data;
 using Poci.Contacts.Data;
@@ -12,6 +13,8 @@ namespace Examples.AddressBook.InMemory.Data
             Emails = new List<IEmail>();
             Phones = new List<IPhone>();
             Addresses = new List<IAddress>();
+
+            Identifier = Guid.NewGuid().ToString();
         }
 
         #region IAddressBookContact Members
@@ -22,6 +25,7 @@ namespace Examples.AddressBook.InMemory.Data
         public ICollection<IEmail> Emails { get; set; }
         public ICollection<IPhone> Phones { get; set; }
         public ICollection<IAddress> Addresses { get; set; }
+        public string Identifier { get; private set; }
         public IUser Owner { get; set; }
 
         #endregion

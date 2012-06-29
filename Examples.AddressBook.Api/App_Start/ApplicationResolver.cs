@@ -98,6 +98,4 @@ namespace Examples.AddressBook.Api.App_Start
             return (T) GetService(typeof (T));
         }
     }
-
-  
 }

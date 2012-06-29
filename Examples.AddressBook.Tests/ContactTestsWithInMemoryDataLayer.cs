@@ -4,25 +4,31 @@ using Examples.AddressBook.Data;
 using Examples.AddressBook.InMemory.Data;
 using Examples.AddressBook.InMemory.DataService;
 using Poci.Security;
-using Poci.Security.Tests.Builders;
+using Poci.Security.Tests;
 using Poci.Security.Validation;
 
 namespace Examples.AddressBook.Tests
 {
-    public class contact_tests_with_in_memory_data_layer : ContactsTestsBase
+    public class ContactTestsWithInMemoryDataLayer :
+        ContactsTestsBase<InMemoryDataContext>
     {
-        protected override IAddressBookContactsService GetContactsService(
-            ref IEnumerable<IAddressBookContact> contacts)
+        protected override InMemoryDataContext GetDataContext()
         {
-            var dataContext = new InMemoryDataContext();
+            return new InMemoryDataContext();
+        }
+
+        protected override IAddressBookContactsService GetContactsService(
+            InMemoryDataContext dataContext, ref IEnumerable<IAddressBookContact> contacts)
+        {
             if (contacts != null) dataContext.Contacts.AddRange(contacts);
             contacts = dataContext.Contacts;
 
             dataContext.Users.Add(
                 User = new InMemoryUser
                            {
-                               Email = UserBuilder.UserEmail,
-                               PasswordHash = HashService.Hash64(UserBuilder.CorrectPassword)
+                               Active = true,
+                               Email = TestData.User.Email,
+                               PasswordHash = HashService.Hash64(TestData.User.CorrectPassword)
                            }
                 );
 

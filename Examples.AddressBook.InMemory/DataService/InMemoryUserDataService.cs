@@ -18,10 +18,10 @@ namespace Examples.AddressBook.InMemory.DataService
 
         #region IUserDataService Members
 
-        public IUser GetUser(string email)
+        public IUser TryGetUser(string email)
         {
             return _dataContext.Users
-                .Single(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+                .SingleOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
         }
 
         public bool UserExists(string email)

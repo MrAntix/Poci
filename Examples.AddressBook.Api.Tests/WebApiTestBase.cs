@@ -30,7 +30,7 @@ namespace Examples.AddressBook.Api.Tests
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
             config.DependencyResolver = new ApplicationResolver(
                 DataContext = new InMemoryDataContext(),
-                HashService  = new MD5HashService());
+                HashService = new MD5HashService());
 
             Server = new HttpServer(config);
         }
@@ -49,7 +49,7 @@ namespace Examples.AddressBook.Api.Tests
         #endregion
 
         HttpRequestMessage CreateRequest(
-            string url, 
+            string url,
             string contentType = null,
             HttpMethod method = null)
         {
@@ -66,7 +66,7 @@ namespace Examples.AddressBook.Api.Tests
             return request;
         }
 
-        private HttpRequestMessage CreateGet(
+        HttpRequestMessage CreateGet(
             string url,
             string contentType = null)
         {
@@ -83,8 +83,8 @@ namespace Examples.AddressBook.Api.Tests
             MediaTypeFormatter formatter = null) where T : class
         {
             var request = CreateRequest(
-                url, 
-                contentType, 
+                url,
+                contentType,
                 HttpMethod.Post);
 
             request.Content = new ObjectContent<T>(

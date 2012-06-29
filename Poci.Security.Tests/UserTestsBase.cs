@@ -2,7 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Poci.Common.Security;
 using Poci.Common.Validation;
-using Poci.Security.Tests.Builders;
+using Poci.Security.Data;
+using Poci.Testing;
 using Xunit;
 
 namespace Poci.Security.Tests
@@ -11,6 +12,20 @@ namespace Poci.Security.Tests
         IDisposable
     {
         protected readonly IHashService HashService = new MD5HashService();
+
+        readonly Builder<IUserLogOn> _logOnBuilder;
+        readonly Builder<ISession> _sessionBuilder;
+        readonly Builder<IUserRegister> _userRegistationBuilder;
+
+        protected UserTestsBase(
+            Builder<IUserLogOn> logOnBuilder,
+            Builder<IUserRegister> userRegistationBuilder, 
+            Builder<ISession> sessionBuilder)
+        {
+            _logOnBuilder = logOnBuilder;
+            _userRegistationBuilder = userRegistationBuilder;
+            _sessionBuilder = sessionBuilder;
+        }
 
         #region IDisposable Members
 
@@ -27,181 +42,152 @@ namespace Poci.Security.Tests
         #endregion
 
         [Fact]
-        public virtual void can_log_on()
+        public virtual void CanLogOn()
         {
             var securityService = GetSecurityService();
 
-            var session = securityService.LogOn(
-                new UserBuilder()
-                    .BuildLogOn(UserBuilder.UserEmail, UserBuilder.CorrectPassword)
-                );
+            var session = securityService.LogOn(_logOnBuilder.Build());
 
             Assert.NotNull(session);
             Assert.NotNull(session.User);
-            Assert.Equal(UserBuilder.UserEmail, session.User.Email);
-            Assert.Equal(HashService.Hash64(UserBuilder.CorrectPassword), session.User.PasswordHash);
+            Assert.Equal(TestData.User.Email, session.User.Email);
+            Assert.Equal(HashService.Hash64(TestData.User.CorrectPassword), session.User.PasswordHash);
         }
 
         [Fact]
-        public virtual void cannot_log_on_with_incorrect_credentials()
+        public virtual void CannotLogOnWithIncorrectCredentials()
         {
             var securityService = GetSecurityService();
 
             var session = securityService.LogOn(
-                new UserBuilder()
-                    .BuildLogOn(UserBuilder.UserEmail, "someoldrubbish")
-                );
+                _logOnBuilder.Build(
+                    u => { u.Password = "someoldrubbish"; }
+                    ));
 
             Assert.Null(session);
         }
 
         [Fact]
-        public virtual void cannot_log_on_inactive_user_with_correct_credentials()
+        public virtual void CannotLogOnInactiveUserWithCorrectCredentials()
         {
             var securityService = GetSecurityService();
 
             var session = securityService.LogOn(
-                new UserBuilder()
-                    .BuildLogOn(UserBuilder.InactiveUserEmail, UserBuilder.CorrectPassword)
-                );
+                _logOnBuilder.Build(
+                    u => { u.Email = TestData.User.InactiveEmail; }
+                    ));
 
             Assert.Null(session);
         }
 
         [Fact]
-        public virtual void can_register()
+        public virtual void CanRegister()
         {
             var securityService = GetSecurityService();
 
             var session = securityService
-                .Register(
-                    new UserBuilder()
-                        .BuildRegister(
-                            UserBuilder.UserName, UserBuilder.RegisterUserEmail,
-                            UserBuilder.CorrectPassword, UserBuilder.CorrectPassword)
-                );
+                .Register(_userRegistationBuilder.Build());
 
             Assert.NotNull(session);
             Assert.NotNull(session.User);
-            Assert.Equal(UserBuilder.UserName, session.User.Name);
-            Assert.Equal(UserBuilder.RegisterUserEmail, session.User.Email);
-            Assert.Equal(HashService.Hash64(UserBuilder.CorrectPassword), session.User.PasswordHash);
+            Assert.Equal(TestData.User.Name, session.User.Name);
+            Assert.Equal(TestData.User.RegisterEmail, session.User.Email);
+            Assert.Equal(HashService.Hash64(TestData.User.CorrectPassword), session.User.PasswordHash);
         }
 
         [Fact]
-        public virtual void can_not_register_with_short_password()
+        public virtual void CanNotRegisterWithShortPassword()
         {
             var securityService = GetSecurityService();
 
             Assert.Throws<ValidationResultsException>(
-                () => securityService
-                          .Register(
-                              new UserBuilder()
-                                  .BuildRegister(
-                                      UserBuilder.UserName, UserBuilder.RegisterUserEmail,
-                                      "a", "a")
-                          )
+                () => securityService.Register(
+                    _userRegistationBuilder.Build(
+                        u =>
+                            {
+                                u.Password = "a";
+                                u.PasswordConfirm = "a";
+                            }
+                        ))
                 );
         }
 
         [Fact]
-        public virtual void can_not_register_with_password_confirm_mismatch()
+        public virtual void CanNotRegisterWithPasswordConfirmMismatch()
         {
             var securityService = GetSecurityService();
 
             Assert.Throws<ValidationResultsException>(
-                () => securityService
-                          .Register(
-                              new UserBuilder()
-                                  .BuildRegister(
-                                      UserBuilder.UserName, UserBuilder.RegisterUserEmail,
-                                      "abcde", "abcdef")
-                          )
+                () => securityService.Register(
+                    _userRegistationBuilder.Build(
+                        u =>
+                            {
+                                u.Password = "abcde";
+                                u.PasswordConfirm = "abcdef";
+                            }
+                        ))
                 );
         }
 
         [Fact]
-        public virtual void can_not_register_with_existing_email()
+        public virtual void CanNotRegisterWithExistingEmail()
         {
             var securityService = GetSecurityService();
 
-            securityService
-                .Register(
-                    new UserBuilder()
-                        .BuildRegister(
-                            UserBuilder.UserName, UserBuilder.RegisterUserEmail,
-                            UserBuilder.CorrectPassword, UserBuilder.CorrectPassword)
-                );
-
-            Assert.Null(securityService
-                            .Register(
-                                new UserBuilder()
-                                    .BuildRegister(
-                                        UserBuilder.UserName, UserBuilder.RegisterUserEmail,
-                                        UserBuilder.CorrectPassword, UserBuilder.CorrectPassword)
-                            )
+            Assert.Null(
+                securityService.Register(
+                    _userRegistationBuilder.Build(
+                        u => { u.Email = TestData.User.Email; }
+                        )
+                    )
                 );
         }
 
         [Fact]
-        public virtual void can_not_register_with_null_password()
+        public virtual void CanNotRegisterWithNullPassword()
         {
             var securityService = GetSecurityService();
 
             Assert.Throws<ValidationResultsException>(
-                () => securityService
-                          .Register(
-                              new UserBuilder()
-                                  .BuildRegister(
-                                      UserBuilder.UserName, UserBuilder.RegisterUserEmail,
-                                      null, null)
-                          )
+                () => securityService.Register(
+                    _userRegistationBuilder.Build(
+                        u =>
+                            {
+                                u.Password = null;
+                                u.PasswordConfirm = null;
+                            }))
                 );
         }
 
         [Fact]
-        public virtual void session_is_valid_from_log_on()
+        public virtual void SessionIsValidFromLogOn()
         {
             var securityService = GetSecurityService();
 
-            var session = securityService.LogOn(
-                new UserBuilder()
-                    .BuildLogOn(UserBuilder.UserEmail, UserBuilder.CorrectPassword)
-                );
+            var session = securityService
+                .LogOn(_logOnBuilder.Build());
 
             Assert.True(
                 securityService.SessionIsValid(session), "session should be valid");
         }
 
         [Fact]
-        public virtual void session_is_valid_from_register()
+        public virtual void SessionIsValidFromRegister()
         {
             var securityService = GetSecurityService();
 
-            var session = securityService.Register(
-                new UserBuilder()
-                    .BuildRegister(
-                        UserBuilder.UserName,
-                        UserBuilder.RegisterUserEmail,
-                        UserBuilder.CorrectPassword,
-                        UserBuilder.CorrectPassword)
-                );
+            var session = securityService
+                .Register(_userRegistationBuilder.Build());
 
             Assert.True(
                 securityService.SessionIsValid(session), "session should be valid");
         }
 
         [Fact]
-        public virtual void session_is_not_valid_when_made_up()
+        public virtual void SessionIsNotValidWhenMadeUp()
         {
             var securityService = GetSecurityService();
-
-            var session = new SessionBuilder()
-                .WithUser(
-                    new UserBuilder()
-                        .Build(UserBuilder.UserEmail)
-                )
-                .Build();
+            var session = _sessionBuilder.Build();
 
             Assert.False(
                 securityService.SessionIsValid(session), "session should not be valid");

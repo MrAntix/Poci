@@ -11,17 +11,18 @@ namespace Examples.AddressBook.EF.DataService
     {
         readonly EFDataContext _dataContext;
 
-        public EFUserDataService(EFDataContext dataContext)
+        public EFUserDataService(
+            EFDataContext dataContext)
         {
             _dataContext = dataContext;
         }
 
         #region IUserDataService Members
 
-        public IUser GetUser(string email)
+        public IUser TryGetUser(string email)
         {
             return _dataContext.Users
-                .Single(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+                .SingleOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
         }
 
         public bool UserExists(string email)
@@ -42,7 +43,6 @@ namespace Examples.AddressBook.EF.DataService
 
         public void InsertUser(IUser user)
         {
-            _dataContext.Users.Add((EFUser)user);
         }
 
         public void UpdateUser(IUser user)

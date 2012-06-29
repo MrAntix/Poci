@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using Examples.AddressBook.EF.DataService;
+﻿using Examples.AddressBook.EF.DataService;
+using Poci.Security.DataServices;
 using Xunit;
 
 namespace Examples.AddressBook.EF.Tests
@@ -10,15 +9,21 @@ namespace Examples.AddressBook.EF.Tests
         [Fact]
         public void CanConnect()
         {
-            var dc = new EFDataContext();
-
-            if (dc.Users.Any())
+            using (var uow = new EFDataContext())
             {
-                var user = dc.Users.First();
-                Assert.NotNull(user.Name);
-            }
+                var userService = GetUserDataService(uow);
+                var user = userService.TryGetUser(
+                    "test@example.com"
+                    );
 
-            throw new Exception("no users in db");
+                Assert.Null(user);
+            }
+        }
+
+        IUserDataService GetUserDataService(
+            EFDataContext uow)
+        {
+            return new EFUserDataService(uow);
         }
     }
 }

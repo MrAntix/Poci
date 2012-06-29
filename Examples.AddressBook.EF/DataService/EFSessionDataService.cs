@@ -11,37 +11,45 @@ namespace Examples.AddressBook.EF.DataService
     {
         readonly EFDataContext _dataContext;
 
-        public EFSessionDataService(EFDataContext dataContext)
+        public EFSessionDataService(
+            EFDataContext dataContext)
         {
             _dataContext = dataContext;
         }
 
         #region ISessionDataService Members
 
-        ISession ISessionDataService.CreateSession(IUser user)
+        ISession ISessionDataService.
+            CreateSession(IUser user)
         {
-            return new EFSession
-                       {
-                           User = (EFUser) user
-                       };
+            var session = (ISession) new EFSession();
+            session.User = user;
+
+            return session;
         }
 
-        void ISessionDataService.InsertSession(ISession session)
-        {
-            _dataContext.Sessions.Add((EFSession) session);
-        }
-
-        void ISessionDataService.UpdateSession(ISession session)
+        void ISessionDataService.
+            InsertSession(ISession session)
         {
         }
 
-        bool ISessionDataService.SessionExists(Guid identifier, IUser user, bool includeExpired)
+        void ISessionDataService.
+            UpdateSession(ISession session)
         {
-            return _dataContext
-                .Sessions.Any(s =>
-                              s.Identifier == identifier
-                              && s.User == user
-                              && (includeExpired || s.ExpiresOn > DateTime.UtcNow));
+            //var data = GetSession(session.Identifier);
+        }
+
+        bool ISessionDataService.
+            SessionExists(Guid identifier, IUser user, bool includeExpired)
+        {
+            var userEmail = user.Email;
+
+            return _dataContext.
+                Sessions.Any(s =>
+                             s.Identifier == identifier
+                             && s.User.Email == userEmail
+                             && (includeExpired || s.ExpiresOn > DateTime.UtcNow)
+                );
         }
 
         #endregion

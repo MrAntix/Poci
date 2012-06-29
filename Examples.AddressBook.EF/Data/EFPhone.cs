@@ -2,7 +2,7 @@ using Poci.Contacts.Data;
 
 namespace Examples.AddressBook.EF.Data
 {
-    public class EFPhone : EFBase<IPhone>, IPhone
+    public class EFPhone : EFBase, IPhone
     {
         #region IPhone Members
 

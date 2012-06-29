@@ -23,38 +23,47 @@ namespace Examples.AddressBook.EF.DataService
 
         #region IAddressBookContactsDataService Members
 
-        bool IAddressBookContactsDataService.Exists(IUser user, string email)
+        bool IAddressBookContactsDataService.
+            Exists(IUser user, string email)
         {
             return _dataContext.Users
                 .Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
         }
 
-        IAddressBookContact IAddressBookContactsDataService.Create(IUser user)
+        IAddressBookContact IAddressBookContactsDataService.
+            Create(IUser user)
         {
             return new EFContact();
         }
 
-        void IAddressBookContactsDataService.Insert(IAddressBookContact contact)
+        void IAddressBookContactsDataService.
+            Insert(IAddressBookContact contact)
         {
-            _dataContext.Contacts.Add((EFContact)contact);
+            _dataContext.Contacts.Add(contact.Map());
         }
 
-        void IAddressBookContactsDataService.Update(IAddressBookContact contact)
+        void IAddressBookContactsDataService.
+            Update(IAddressBookContact contact)
         {
         }
 
-        void IAddressBookContactsDataService.Delete(IAddressBookContact contact)
+        void IAddressBookContactsDataService.
+            Delete(IAddressBookContact contact)
         {
-            _dataContext.Contacts.Remove((EFContact)contact);
+            _dataContext.Contacts
+                .Remove(Get(contact));
         }
 
-        IEnumerable<IAddressBookContact> IAddressBookContactsDataService.ByEmailAddress(string emailAddress)
+        IEnumerable<IAddressBookContact> IAddressBookContactsDataService.
+            ByEmailAddress(string emailAddress)
         {
             return _dataContext.Contacts
-                .Where(c => c.Emails.Any(e => e.Address.Equals(emailAddress, StringComparison.OrdinalIgnoreCase)));
+                .Where(c => c.Emails.Any(e => e.Address.Equals(emailAddress, StringComparison.OrdinalIgnoreCase))
+                );
         }
 
-        IEmail IAddressBookContactsDataService.CreateEmail(string address)
+        IEmail IAddressBookContactsDataService.
+            CreateEmail(string address)
         {
             return new EFEmail
                        {
@@ -62,7 +71,8 @@ namespace Examples.AddressBook.EF.DataService
                        };
         }
 
-        IPhone IAddressBookContactsDataService.CreatePhone(string number)
+        IPhone IAddressBookContactsDataService.
+            CreatePhone(string number)
         {
             return new EFPhone
                        {
@@ -70,7 +80,8 @@ namespace Examples.AddressBook.EF.DataService
                        };
         }
 
-        IAddress IAddressBookContactsDataService.CreateAddress(string postcode)
+        IAddress IAddressBookContactsDataService.
+            CreateAddress(string postcode)
         {
             return new EFAddress
                        {
@@ -78,17 +89,27 @@ namespace Examples.AddressBook.EF.DataService
                        };
         }
 
-        public Task<IEnumerable<IAddressBookContact>> Search(string text, string continuationToken, int count)
+        public async Task<IEnumerable<IAddressBookContact>>
+            Search(string text, string continuationToken, int count)
         {
-            return Task.FromResult(
+            return
                 _dataContext.Contacts
                     .Where(c =>
-                           c.Name.StartsWith(text, StringComparison.OrdinalIgnoreCase)
-                           || c.Emails.Any(e => e.Address.StartsWith(text, StringComparison.OrdinalIgnoreCase))
-                    ).ToArray().Cast<IAddressBookContact>()
-                );
+                           c.Name.Contains(text)
+                           || c.Emails.Any(e => e.Address.Contains(text))
+                    );
         }
 
         #endregion
+
+        EFContact Get(IAddressBookContact contact)
+        {
+            var id = int.Parse(contact.Identifier);
+
+            return contact is EFContact
+                       ? (EFContact) contact
+                       : _dataContext.Contacts
+                             .Single(c => c.Id == id);
+        }
     }
 }

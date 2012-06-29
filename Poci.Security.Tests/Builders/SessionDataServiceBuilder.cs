@@ -4,12 +4,16 @@ using System.Linq;
 using Moq;
 using Poci.Security.Data;
 using Poci.Security.DataServices;
+using Poci.Testing;
 
 namespace Poci.Security.Tests.Builders
 {
     public class SessionDataServiceBuilder
     {
         public readonly IList<ISession> Sessions = new List<ISession>();
+
+        readonly Builder<ISession> _sessionBuilder = new Builder<ISession>()
+            .CreateWith(Mock.Of<ISession>);
 
         public SessionDataServiceBuilder WithSession(
             ISession session)
@@ -38,9 +42,8 @@ namespace Poci.Security.Tests.Builders
                 );
 
             mock.Setup(s => s.CreateSession(It.IsAny<IUser>()))
-                .Returns((IUser user) => new SessionBuilder()
-                                             .WithUser(user)
-                                             .Build());
+                .Returns((IUser user) => _sessionBuilder
+                                             .Build(s => { s.User = user; }));
 
             mock.Setup(s => s.InsertSession(It.IsAny<ISession>()))
                 .Callback((ISession session) => Sessions.Add(session));

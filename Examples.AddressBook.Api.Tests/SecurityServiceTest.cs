@@ -19,7 +19,7 @@ namespace Examples.AddressBook.Api.Tests
         {
             var client = new HttpClient(Server);
             var request = CreatePost(
-                "api/Register/", 
+                "api/Register/",
                 new UserRegister
                     {
                         Name = UserName,
@@ -54,12 +54,12 @@ namespace Examples.AddressBook.Api.Tests
 
             var client = new HttpClient(Server);
             var request = CreatePost(
-                "api/LogOn/", 
+                "api/LogOn/",
                 new UserLogOn
-                {
-                    Email = UserEmail,
-                    Password = UserPassword
-                });
+                    {
+                        Email = UserEmail,
+                        Password = UserPassword
+                    });
 
             using (var response = client.SendAsync(request).Result)
             {
