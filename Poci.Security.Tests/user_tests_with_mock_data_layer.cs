@@ -2,13 +2,13 @@ using Moq;
 using Poci.Security.Data;
 using Poci.Security.Tests.Builders;
 using Poci.Security.Validation;
-using Poci.Testing;
+using Testing;
 
 namespace Poci.Security.Tests
 {
-    public class UserTestsWithMockDataLayer : UserTestsBase
+    public class user_tests_with_mock_data_layer : UserTestsBase
     {
-        public UserTestsWithMockDataLayer()
+        public user_tests_with_mock_data_layer()
             : base(
                 GetLogOnBuilder(),
                 GetUserRegistationBuilder(),
@@ -19,56 +19,52 @@ namespace Poci.Security.Tests
 
         static Builder<ISession> GetSessionBuilder()
         {
-            var userBuilder = new Builder<IUser>()
-                .CreateWith(Mock.Of<IUser>)
-                .AssignWith(u => { u.Email = TestData.User.Email; });
+            var userBuilder = new Builder<IUser>(Mock.Of<IUser>)
+                .With(u => { u.Email = SecurityTestData.User.Email; });
 
-            return new Builder<ISession>()
-                .CreateWith(Mock.Of<ISession>)
-                .AssignWith(s => { s.User = userBuilder.Build(); });
+            return new Builder<ISession>(Mock.Of<ISession>)
+                .With(s => { s.User = userBuilder.Build(); });
         }
 
         static Builder<IUserLogOn> GetLogOnBuilder()
         {
-            return new Builder<IUserLogOn>()
-                .CreateWith(Mock.Of<IUserLogOn>)
-                .AssignWith(u =>
-                                {
-                                    u.Email = TestData.User.Email;
-                                    u.Password = TestData.User.CorrectPassword;
-                                });
+            return new Builder<IUserLogOn>(Mock.Of<IUserLogOn>)
+                .With(u =>
+                          {
+                              u.Email = SecurityTestData.User.Email;
+                              u.Password = SecurityTestData.User.CorrectPassword;
+                          });
         }
 
         static Builder<IUserRegister> GetUserRegistationBuilder()
         {
-            return new Builder<IUserRegister>()
-                .CreateWith(Mock.Of<IUserRegister>)
-                .AssignWith(u =>
-                                {
-                                    u.Name = TestData.User.Name;
-                                    u.Email = TestData.User.RegisterEmail;
-                                    u.Password = TestData.User.CorrectPassword;
-                                    u.PasswordConfirm = TestData.User.CorrectPassword;
-                                });
+            return new Builder<IUserRegister>(Mock.Of<IUserRegister>)
+                .With(u =>
+                          {
+                              u.Name = SecurityTestData.User.Name;
+                              u.Email = SecurityTestData.User.RegisterEmail;
+                              u.Password = SecurityTestData.User.CorrectPassword;
+                              u.PasswordConfirm = SecurityTestData.User.CorrectPassword;
+                          });
         }
 
         protected override ISecurityService GetSecurityService()
         {
-            var userBuilder = new Builder<IUser>()
-                .CreateWith(Mock.Of<IUser>)
-                .AssignWith(u =>
-                                {
-                                    u.Email = TestData.User.Email;
-                                    u.PasswordHash = HashService.Hash64(TestData.User.CorrectPassword);
-                                    u.Active = true;
-                                });
+            var userBuilder = new Builder<IUser>(Mock.Of<IUser>)
+                .With(u =>
+                          {
+                              u.Email = SecurityTestData.User.Email;
+                              u.PasswordHash = HashService.Hash64(SecurityTestData.User.CorrectPassword);
+                              u.Active = true;
+                          });
 
             var user = userBuilder.Build();
-            var inactiveUser = userBuilder.Build(u =>
-                                                     {
-                                                         u.Email = TestData.User.InactiveEmail;
-                                                         u.Active = false;
-                                                     });
+            var inactiveUser = userBuilder
+                .Build(u =>
+                          {
+                              u.Email = SecurityTestData.User.InactiveEmail;
+                              u.Active = false;
+                          });
 
             return new SecurityService(
                 new UserDataServiceBuilder()

@@ -48,9 +48,13 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data.Entity" />
-    <Reference Include="xunit, Version=1.9.0.1566, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+    <Reference Include="Testing, Version=2.0.0.32190, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\xunit.1.9.0.1566\lib\xunit.dll</HintPath>
+      <HintPath>..\packages\antix-testing.2.0.0\lib\net40\Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit, Version=1.9.1.1600, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -106,10 +110,6 @@
     <ProjectReference Include="..\Poci.Security\Poci.Security.csproj">
       <Project>{DA5876BB-41E0-4532-AD2A-EA508611B585}</Project>
       <Name>Poci.Security</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Poci.Testing\Poci.Testing.csproj">
-      <Project>{EF6836CE-972F-44FF-98BC-529238957B6B}</Project>
-      <Name>Poci.Testing</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

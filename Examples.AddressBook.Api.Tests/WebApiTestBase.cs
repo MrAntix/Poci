@@ -4,22 +4,27 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
-using Examples.AddressBook.Api.Tests.Application;
-using Examples.AddressBook.InMemory.DataService;
+using Poci.Common.DataServices;
 using Poci.Common.Security;
+using Poci.Common.Services;
 
 namespace Examples.AddressBook.Api.Tests
 {
-    public abstract class WebApiTestBase :
+    public abstract class WebApiTestBase<TDataContext> :
         IDisposable
+        where TDataContext : IDataContext
     {
-        protected readonly InMemoryDataContext DataContext;
+        protected readonly TDataContext DataContext;
         protected readonly IHashService HashService;
         protected readonly HttpServer Server;
         protected string RootUrl = "http://test.example/";
 
-        protected WebApiTestBase()
+        protected WebApiTestBase(
+            IServiceContainer dependencyResolver)
         {
+            DataContext = dependencyResolver.GetService<TDataContext>();
+            HashService = dependencyResolver.GetService<IHashService>();
+
             var config = new HttpConfiguration();
             config.Routes.MapHttpRoute(
                 "Default",
@@ -28,9 +33,7 @@ namespace Examples.AddressBook.Api.Tests
                 );
 
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-            config.DependencyResolver = new ApplicationResolver(
-                DataContext = new InMemoryDataContext(),
-                HashService = new MD5HashService());
+            // config.DependencyResolver = dependencyResolver;
 
             Server = new HttpServer(config);
         }

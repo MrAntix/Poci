@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http.Dependencies;
 using Examples.AddressBook.Api.Controllers;
-using Examples.AddressBook.EF.DataService;
 using Poci.Common.Security;
+using Poci.Common.Services;
 using Poci.Security;
 using Poci.Security.DataServices;
 using Poci.Security.Validation;
@@ -11,14 +12,12 @@ using Poci.Security.Validation;
 namespace Examples.AddressBook.Api.App_Start
 {
     public class ApplicationResolver :
+        IServiceContainer,
         IDependencyResolver
     {
-        readonly EFDataContext _dataContext
-            = new EFDataContext();
-
         #region IDependencyResolver Members
 
-        public object GetService(Type serviceType)
+        public virtual object GetService(Type serviceType)
         {
             if (serviceType == typeof (RegisterController))
                 return new RegisterController(
@@ -38,12 +37,6 @@ namespace Examples.AddressBook.Api.App_Start
                     GetService<IUserRegistrationValidator>()
                     );
 
-            if (serviceType == typeof (IUserDataService))
-                return new EFUserDataService(_dataContext);
-
-            if (serviceType == typeof (ISessionDataService))
-                return new EFSessionDataService(_dataContext);
-
             if (serviceType == typeof (IHashService))
                 return new MD5HashService();
 
@@ -53,9 +46,14 @@ namespace Examples.AddressBook.Api.App_Start
             return null;
         }
 
-        public IEnumerable<object> GetServices(Type serviceType)
+        public virtual IEnumerable<object> GetServices(Type serviceType)
         {
             return new object[] {};
+        }
+
+        public IServiceRegistration<TI> Register<TI>()
+        {
+            throw new NotImplementedException();
         }
 
         public IDependencyScope BeginScope()
@@ -83,7 +81,6 @@ namespace Examples.AddressBook.Api.App_Start
             if (disposing)
             {
                 // Dispose managed resources.
-                _dataContext.Dispose();
             }
 
             // unmanaged resources here.
@@ -93,9 +90,22 @@ namespace Examples.AddressBook.Api.App_Start
 
         #endregion
 
+        #region IServiceContainer Members
+
         public T GetService<T>()
         {
             return (T) GetService(typeof (T));
         }
+
+        public IEnumerable<T> GetServices<T>()
+        {
+            return GetServices(typeof (T)).Cast<T>();
+        }
+
+      
+
+        #endregion
+
+        IDictionary<Type, object> _registrations;
     }
 }

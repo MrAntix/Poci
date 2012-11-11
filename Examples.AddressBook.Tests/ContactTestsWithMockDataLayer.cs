@@ -9,11 +9,11 @@ using Poci.Security.Data;
 using Poci.Security.Tests;
 using Poci.Security.Tests.Builders;
 using Poci.Security.Validation;
-using Poci.Testing;
+using Testing;
 
 namespace Examples.AddressBook.Tests
 {
-    public class ContactTestsWithMockDataLayer : ContactsTestsBase<IDataContext>
+    public class contact_tests_with_mock_data_layer : ContactsTestsBase<IDataContext>
     {
         protected override IDataContext GetDataContext()
         {
@@ -23,19 +23,17 @@ namespace Examples.AddressBook.Tests
         protected override IAddressBookContactsService GetContactsService(
             IDataContext dataContext, ref IEnumerable<IAddressBookContact> contacts)
         {
-            var userBuilder = new Builder<IUser>()
-                .CreateWith(Mock.Of<IUser>)
-                .AssignWith(u =>
-                                {
-                                    u.Active = true;
-                                    u.Email = TestData.User.Email;
-                                    u.PasswordHash = HashService.Hash64(TestData.User.CorrectPassword);
-                                });
+            var userBuilder = new Builder<IUser>(Mock.Of<IUser>)
+                .With(u =>
+                          {
+                              u.Active = true;
+                              u.Email = SecurityTestData.User.Email;
+                              u.PasswordHash = HashService.Hash64(SecurityTestData.User.CorrectPassword);
+                          });
 
             User = userBuilder.Build();
 
-            Session = new Builder<ISession>()
-                .CreateWith(Mock.Of<ISession>)
+            Session = new Builder<ISession>(Mock.Of<ISession>)
                 .Build(
                     s =>
                         {

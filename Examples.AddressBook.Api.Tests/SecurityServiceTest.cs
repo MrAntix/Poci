@@ -2,17 +2,33 @@
 using System.Net;
 using System.Net.Http;
 using Examples.AddressBook.Api.Models;
+using Examples.AddressBook.Api.Tests.Application;
 using Examples.AddressBook.InMemory.Data;
+using Examples.AddressBook.InMemory.DataService;
+using Poci.Common.DataServices;
+using Poci.Common.Security;
+using Poci.Common.Services;
 using Xunit;
 
 namespace Examples.AddressBook.Api.Tests
 {
     public class SecurityServiceTest :
-        WebApiTestBase
+        WebApiTestBase<InMemoryDataContext>
     {
         const string UserName = "Test User";
         const string UserEmail = "test@example.com";
         const string UserPassword = "t3st";
+
+        public SecurityServiceTest() :
+            base(new TestApplicationResolver()
+                     .Register<IDataContext>()
+                     .Register<InMemoryDataContext>()
+                     .As(() => new InMemoryDataContext(), ServiceLifeTime.Session)
+                     .Register<IHashService>()
+                     .As(() => new MD5HashService(), ServiceLifeTime.Singleton)
+            )
+        {
+        }
 
         [Fact]
         public void CanRegisterWithCorrectModel()

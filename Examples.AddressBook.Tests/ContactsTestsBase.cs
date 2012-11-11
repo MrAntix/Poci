@@ -35,7 +35,7 @@ namespace Examples.AddressBook.Tests
         #endregion
 
         [Fact]
-        public void CanAddANewContact()
+        public void can_add_a_new_contact()
         {
             using (var dataContext = GetDataContext())
             {
@@ -59,7 +59,7 @@ namespace Examples.AddressBook.Tests
         }
 
         [Fact]
-        public void CanAddADuplicateContactWhenAllowed()
+        public void can_add_a_duplicate_contact_when_allowed()
         {
             using (var dataContext = GetDataContext())
             {
@@ -87,7 +87,7 @@ namespace Examples.AddressBook.Tests
         }
 
         [Fact]
-        public void CanNotAddADuplicateContactWhenNotAllowed()
+        public void can_not_add_a_duplicate_contact_when_not_allowed()
         {
             using (var dataContext = GetDataContext())
             {
@@ -115,7 +115,7 @@ namespace Examples.AddressBook.Tests
         }
 
         [Fact]
-        public async Task CanListContacts()
+        public async Task can_list_contacts()
         {
             using (var dataContext = GetDataContext())
             {
@@ -147,7 +147,7 @@ namespace Examples.AddressBook.Tests
         }
 
         [Fact]
-        public void GetContactsByEmail()
+        public void get_contacts_by_email()
         {
             using (var dataContext = GetDataContext())
             {
@@ -181,7 +181,7 @@ namespace Examples.AddressBook.Tests
         }
 
         [Fact]
-        public void CanDeleteAContact()
+        public void can_delete_a_contact()
         {
             using (var dataContext = GetDataContext())
             {

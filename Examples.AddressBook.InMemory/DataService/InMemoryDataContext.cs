@@ -15,7 +15,9 @@ namespace Examples.AddressBook.InMemory.DataService
 
         #region IDataContext Members
 
+#pragma warning disable 1998
         async Task IDataContext.CommitAsync()
+#pragma warning restore 1998
         {
         }
 

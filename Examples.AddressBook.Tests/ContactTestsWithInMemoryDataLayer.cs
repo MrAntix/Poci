@@ -27,8 +27,8 @@ namespace Examples.AddressBook.Tests
                 User = new InMemoryUser
                            {
                                Active = true,
-                               Email = TestData.User.Email,
-                               PasswordHash = HashService.Hash64(TestData.User.CorrectPassword)
+                               Email = SecurityTestData.User.Email,
+                               PasswordHash = HashService.Hash64(SecurityTestData.User.CorrectPassword)
                            }
                 );
 

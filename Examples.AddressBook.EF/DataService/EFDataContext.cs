@@ -13,7 +13,9 @@ namespace Examples.AddressBook.EF.DataService
 
         #region IDataContext Members
 
+#pragma warning disable 1998
         public async Task CommitAsync()
+#pragma warning restore 1998
         {
             SaveChanges();
         }

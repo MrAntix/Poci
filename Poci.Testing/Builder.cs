@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Poci.Testing
 {
     public class Builder<T>
     {
+        public IEnumerable<T> Items;
         Action<T> _assign;
         Func<T> _create = Activator.CreateInstance<T>;
+        int _index;
 
-        public Builder<T> CreateWith(
+        public Builder<T> Create(
             Func<T> create = null)
         {
             _create = create;
@@ -15,7 +19,7 @@ namespace Poci.Testing
             return this;
         }
 
-        public Builder<T> AssignWith(
+        public Builder<T> With(
             Action<T> assign)
         {
             _assign = assign;
@@ -26,11 +30,37 @@ namespace Poci.Testing
         public T Build(
             Action<T> assign = null)
         {
-            var i = _create();
-            if (_assign != null) _assign(i);
-            if (assign != null) assign(i);
+            var item = _create();
+            if (_assign != null) _assign(item);
+            if (assign != null) assign(item);
 
-            return i;
+            return item;
+        }
+
+        public Builder<T> Build(
+            int count,
+            Action<T, int> assign = null)
+        {
+            var items =
+                Enumerable.Range(0, count)
+                    .Select(index =>
+                                {
+                                    var item = _create();
+                                    if (_assign != null) _assign(item);
+                                    if (assign != null) assign(item, _index + index);
+
+                                    return item;
+                                });
+
+            if (Items != null) items = Items.Concat(items);
+
+            return new Builder<T>
+                       {
+                           _assign = _assign,
+                           _create = _create,
+                           _index = count,
+                           Items = items
+                       };
         }
     }
 }

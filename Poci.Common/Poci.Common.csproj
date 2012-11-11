@@ -50,6 +50,8 @@
     </Compile>
     <Compile Include="Security\IHashService.cs" />
     <Compile Include="Security\MD5HashService.cs" />
+    <Compile Include="Services\IServiceContainer.cs" />
+    <Compile Include="Services\ServiceLifeTime.cs" />
     <Compile Include="Validation\ValidationResultsException.cs" />
   </ItemGroup>
   <ItemGroup>

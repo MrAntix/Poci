@@ -4,7 +4,7 @@ using System.Linq;
 using Moq;
 using Poci.Security.Data;
 using Poci.Security.DataServices;
-using Poci.Testing;
+using Testing;
 
 namespace Poci.Security.Tests.Builders
 {
@@ -12,8 +12,8 @@ namespace Poci.Security.Tests.Builders
     {
         public readonly IList<ISession> Sessions = new List<ISession>();
 
-        readonly Builder<ISession> _sessionBuilder = new Builder<ISession>()
-            .CreateWith(Mock.Of<ISession>);
+        readonly Builder<ISession> _sessionBuilder
+            = new Builder<ISession>(Mock.Of<ISession>);
 
         public SessionDataServiceBuilder WithSession(
             ISession session)

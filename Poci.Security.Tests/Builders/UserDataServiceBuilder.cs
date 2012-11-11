@@ -3,7 +3,7 @@ using System.Linq;
 using Moq;
 using Poci.Security.Data;
 using Poci.Security.DataServices;
-using Poci.Testing;
+using Testing;
 
 namespace Poci.Security.Tests.Builders
 {
@@ -11,8 +11,8 @@ namespace Poci.Security.Tests.Builders
     {
         public readonly IList<IUser> Users = new List<IUser>();
 
-        readonly Builder<IUser> _userBuilder = new Builder<IUser>()
-            .CreateWith(Mock.Of<IUser>);
+        readonly Builder<IUser> _userBuilder
+            = new Builder<IUser>(Mock.Of<IUser>);
 
         public UserDataServiceBuilder WithUser(
             IUser user)
@@ -42,13 +42,12 @@ namespace Poci.Security.Tests.Builders
                     string email,
                     string passwordHash)
                          => _userBuilder
-                                .Build(
-                                    u =>
-                                        {
-                                            u.Email = email;
-                                            u.PasswordHash = passwordHash;
-                                            u.Name = name;
-                                        })
+                                .Build(u =>
+                                          {
+                                              u.Email = email;
+                                              u.PasswordHash = passwordHash;
+                                              u.Name = name;
+                                          })
                 );
 
             return mock.Object;

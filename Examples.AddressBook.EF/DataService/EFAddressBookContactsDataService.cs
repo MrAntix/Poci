@@ -89,8 +89,10 @@ namespace Examples.AddressBook.EF.DataService
                        };
         }
 
+#pragma warning disable 1998
         public async Task<IEnumerable<IAddressBookContact>>
             Search(string text, string continuationToken, int count)
+#pragma warning restore 1998
         {
             return
                 _dataContext.Contacts
